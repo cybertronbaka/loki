@@ -9,12 +9,19 @@ import 'package:loki/src/errors/errors.dart';
 import 'package:loki/src/version.dart';
 import 'package:yaml/yaml.dart';
 
+const _executableName = 'loki';
+final _description = 'A CLI tool for managing Dart & Flutter projects with multiple packages.\n\n'
+    'Made only because running flutter apps with melos was had an issue with stdin.\n\n'
+    'Made with ❤️  by ${chalk.cyan('Dorji Gyeltshen ( ${chalk.red('@cybertronbaka')} )')}';
+
 class LokiBase {
+
+
   Future<void> run(List<String> arguments) async {
     _drawLogo();
 
     try {
-      final runner = CommandRunner<void>('loki', 'A CLI tool for managing Dart & Flutter projects with multiple packages.')
+      final runner = CommandRunner<void>(_executableName, _description)
         ..addCommand(FetchCommand())
         ..addCommand(CleanCommand())
         ..addCommand(ListCommand())
@@ -24,14 +31,7 @@ class LokiBase {
         ..addCommand(AppCommand())
       ;
 
-      ArgResults argResults = runner.parse(arguments);
-
-      final command = argResults.command?.name;
-      if((command == null || command == 'fetch') && argResults.rest.isEmpty && argResults.options.length == 1 && argResults.options.contains('help')){
-        await FetchCommand().run();
-      } else {
-        await runner.run(arguments);
-      }
+      await runner.run(arguments);
     } on PathNotFoundException catch (e, _) {
       stdout.writeln(LokiError('Could not find loki.yaml').toString());
       exit(1);

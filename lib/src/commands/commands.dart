@@ -1,14 +1,18 @@
 library commands;
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:chalkdart/chalk.dart';
+import 'package:chalkdart/chalk_x11.dart';
 import 'package:loki/src/errors/errors.dart';
 import 'package:loki/src/models/models.dart';
 import 'package:loki/src/services/cache.dart';
+import 'package:loki/src/services/console.dart';
+import 'package:loki/src/services/process_start_runner.dart';
 import 'package:loki/src/version.dart';
 
 part 'app.dart';

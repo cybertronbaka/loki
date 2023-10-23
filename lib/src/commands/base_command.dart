@@ -13,6 +13,6 @@ abstract class BaseCommand extends Command<void>{
   FutureOr<void>? run();
 
   void loadConfig(){
-    config = cache.config.data;
+    config = cache.configGenerator.fetch.config;
   }
 }

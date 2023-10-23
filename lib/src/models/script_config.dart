@@ -5,7 +5,7 @@ class LokiScriptConfig {
   final String exec;
   final String? name;
   final String? description;
-  final bool? flutterRun;
+  final bool? stdin;
   final String? workingDir;
 
   const LokiScriptConfig({
@@ -13,7 +13,7 @@ class LokiScriptConfig {
     required this.exec,
     this.name,
     this.description,
-    this.flutterRun = false,
+    this.stdin = false,
     this.workingDir = '.'
   });
 }

@@ -14,12 +14,16 @@ class AppSubcommand extends BaseCommand {
 
   @override
   FutureOr<void> run() async {
+    cache.configGenerator.fetch.showAppInfo();
+    cache.projectFilter.fetch.printProjects();
+    cache.devicesFilter.fetch.printDevices();
     String device = argResults!['device'];
     String? flavor = argResults!['flavor'];
     var args = ['run', '-d', device, '--${argResults!['environment']}'];
     if(flavor != null){
       args += ['--flavor', flavor, '-t', 'lib/main_$flavor.dart'];
     }
+    stdout.writeln(chalk.greenBright('Launching app ${chalk.cyan(app.name)}${flavor != null ? ' with flavor ${chalk.cyan(flavor)}' : ''} 🚀 '));
     if(argResults!['verbose'] as bool){
       args.add('-v');
     }
@@ -32,7 +36,7 @@ class AppSubcommand extends BaseCommand {
   }
 
   void addOptions(){
-    final devices = cache.devices.data;
+    final devices = cache.devicesFilter.fetch.devices;
     if(devices.isNotEmpty){
       Map<String, String> allowedHelp = {};
       for (var d in devices) {

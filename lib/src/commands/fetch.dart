@@ -1,6 +1,7 @@
 part of commands;
 
 class FetchCommand extends BaseCommand {
+
   @override
   String get description => 'Install dependencies in packages and apps';
 
@@ -10,27 +11,28 @@ class FetchCommand extends BaseCommand {
   @override
   FutureOr<void> run() async {
     loadConfig();
-    var projects = cache.projectFilter.data.all;
+    cache.configGenerator.fetch.showAppInfo();
+    var projects = cache.projectFilter.fetch.all;
+    cache.projectFilter.fetch.printProjects();
     for (var p in projects) {
       await _fetch(p);
     }
+    console.printAllDone();
   }
 
   Future<void> _fetch(Project pro) async {
-    int stdOutLines = 0;
-    int stdErrLines = 0;
-    stdout.writeln('Loki: ${chalk.yellowBright('Fetching dependencies in ${chalk.blueBright(pro.name)}${chalk.cyan(' @ ')}${chalk.blueBright(pro.dir.path)} (${chalk.cyan(pro.type.name)})')}');
-    final p = await Process.start('flutter', ['pub', 'get'], workingDirectory: pro.dir.path, runInShell: true);
-    await stdout.addStream(p.stdout.map((event){
-      stdOutLines++;
-      return event;
-    }));
-    stdout.write('\r'*stdOutLines);
-    await stderr.addStream(p.stderr.map((event){
-      stdErrLines++;
-      return event;
-    }));
-    stderr.write('\r'*stdErrLines);
+    stdout.writeln('Loki: ${chalk.yellowBright('Fetching ⌛ dependencies in ${chalk.cyan(pro.name)}${chalk.pink(' @ ')}${pro.dir.path} (${chalk.cyan(pro.type.name)})')}');
+    final runner = ProcessStartRunner(
+      runner: () => Process.start('flutter', ['pub', 'get'], workingDirectory: pro.dir.path, runInShell: true),
+      clearStdOut: true,
+      onError: (){
+        stdout.writeln('Loki: ${chalk.red('Failed ❌ to fetch dependencies in ${chalk.cyan(pro.name)} @ ${pro.dir.path} (${chalk.cyan(pro.type.name)})')}');
+      },
+      onSuccess: (){
+        stdout.writeln('Loki: ${chalk.green('Fetched 🍕 dependencies in ${chalk.yellowBright(pro.name)}${chalk.pink(' @ ')}${pro.dir.path} (${chalk.yellowBright(pro.type.name)})')}');
+      }
+    );
+    await runner.run();
     stdout.writeln();
   }
 }

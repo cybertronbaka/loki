@@ -15,7 +15,7 @@ class CacheObject<T>{
     required this.load
   });
 
-  T get data {
+  T get fetch {
     if(_loaded) return _data;
 
     this._data = load();
@@ -25,28 +25,28 @@ class CacheObject<T>{
 }
 
 class LokiCache{
-  late CacheObject<LokiConfig> config;
+  late CacheObject<ConfigGenerator> configGenerator;
   late CacheObject<ProjectFilter> projectFilter;
-  late CacheObject<List<FlutterDevice>> devices;
+  late CacheObject<DevicesFilter> devicesFilter;
 
   LokiCache(){
-    config = CacheObject<LokiConfig>(
+    configGenerator = CacheObject<ConfigGenerator>(
       load: () {
         // stdout.writeln(chalk.yellowBright('Loading config!'));
         String path = '${Directory.current.absolute.path}/loki.yaml';
-        return ConfigGenerator.fromYaml(path).generate();
+        return ConfigGenerator.fromYaml(path)..generate();
       }
     );
     projectFilter = CacheObject<ProjectFilter>(
       load: () {
         // stdout.writeln(chalk.yellowBright('Loading Projects!'));
-        return ProjectFilter().run(config.data);
+        return ProjectFilter().run(configGenerator.fetch.config);
       }
     );
-    devices = CacheObject<List<FlutterDevice>>(
+    devicesFilter = CacheObject<DevicesFilter>(
       load: (){
         // stdout.writeln(chalk.yellowBright('Loading Devices!'));
-        return DevicesFilter().run();
+        return DevicesFilter()..run();
       }
     );
   }

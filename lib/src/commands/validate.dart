@@ -9,13 +9,8 @@ class ValidateCommand extends BaseCommand{
 
   @override
   FutureOr<void> run() async {
-    stdout.write('Validating...');
-    try{
-      loadConfig();
-    } catch(e) {
-      stdout.write('\r');
-      rethrow;
-    }
-    stdout.write('\r\rLoki: ${chalk.greenBright('All good!')}\n');
+    loadConfig();
+    cache.configGenerator.fetch.showAppInfo();
+    console.printAllDone();
   }
 }

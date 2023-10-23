@@ -6,13 +6,14 @@ import 'package:args/command_runner.dart';
 import 'package:chalkdart/chalk.dart';
 import 'package:loki/src/commands/commands.dart';
 import 'package:loki/src/errors/errors.dart';
+import 'package:loki/src/services/console.dart';
 import 'package:loki/src/version.dart';
 import 'package:yaml/yaml.dart';
 
 const _executableName = 'loki';
 final _description = 'A CLI tool for managing Dart & Flutter projects with multiple packages.\n\n'
     'Made only because running flutter apps with melos was had an issue with stdin.\n\n'
-    'Made with ❤️  by ${chalk.cyan('Dorji Gyeltshen ( ${chalk.red('@cybertronbaka')} )')}';
+    '${console.attributionText}';
 
 class LokiBase {
 

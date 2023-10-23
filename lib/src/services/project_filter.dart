@@ -5,27 +5,7 @@ import 'package:chalkdart/chalk_x11.dart';
 import 'package:loki/src/models/models.dart';
 import 'package:yaml/yaml.dart';
 
-enum ProjectFilterMode { apps, packages, both }
-
-extension ProjectFilterModeExt on ProjectFilterMode{
-  bool get shouldAddApp{
-    return [ProjectFilterMode.apps, ProjectFilterMode.both].contains(this);
-  }
-
-  bool get shouldAddPackage{
-    return [ProjectFilterMode.packages, ProjectFilterMode.both].contains(this);
-  }
-}
-
 class ProjectFilter {
-  ProjectFilterMode mode;
-  bool verbose;
-
-  ProjectFilter({
-    this.mode = ProjectFilterMode.both,
-    this.verbose = true
-  });
-
   final List<Project> apps = [];
   final List<Project> packages = [];
 
@@ -51,25 +31,22 @@ class ProjectFilter {
         }
       }
     }
-    _printProjects();
     return this;
   }
 
-  void _printProjects(){
-    if(!verbose) return;
-
+  void printProjects(){
     if(packages.isNotEmpty){
-      stdout.writeln('${chalk.yellowBright('Packages Found (')}${chalk.blueBright(packages.length)}${chalk.yellowBright('):')}');
+      stdout.writeln(chalk.yellowBright('Packages Found 📦 (${packages.length}):'));
       for(var pack in packages){
-        stdout.writeln('    - ${chalk.blueBright(pack.name)}${chalk.pink(' @ ')}${chalk.blueBright(pack.dir.path)}');
+        stdout.writeln('    - ${chalk.cyan(pack.name)}${chalk.pink(' @ ')}${pack.dir.path}');
       }
       stdout.writeln();
     }
 
     if(apps.isNotEmpty){
-      stdout.writeln('${chalk.yellowBright('Apps Found (')}${chalk.blueBright(apps.length)}${chalk.yellowBright('):')}');
+      stdout.writeln(chalk.yellowBright('Apps Found 💿 (${packages.length}):'));
       for(var app in apps){
-        stdout.writeln('    - ${chalk.blueBright(app.name)}${chalk.pink(' @ ')}${chalk.blueBright(app.dir.path)}');
+        stdout.writeln('    - ${chalk.cyan(app.name)}${chalk.pink(' @ ')}${app.dir.path}');
       }
       stdout.writeln();
     }
@@ -117,11 +94,7 @@ class ProjectFilter {
         dir: dir,
         type: _isApp(dir, yaml) ?  ProjectType.app : ProjectType.package
     );
-    if(p.type == ProjectType.app){
-      if(mode.shouldAddApp) apps.add(p);
-    } else {
-      if(mode.shouldAddPackage) packages.add(p);
-    }
+    p.type == ProjectType.app ? apps.add(p) : packages.add(p);
     return p;
   }
 

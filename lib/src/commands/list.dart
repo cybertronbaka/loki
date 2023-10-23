@@ -10,6 +10,8 @@ class ListCommand extends BaseCommand{
   @override
   FutureOr<void> run() async {
     loadConfig();
-    cache.projectFilter.data;
+    cache.configGenerator.fetch.showAppInfo();
+    cache.projectFilter.fetch.printProjects();
+    console.printAllDone();
   }
 }

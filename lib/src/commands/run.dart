@@ -21,6 +21,7 @@ class RunCommand extends BaseCommand{
     }
 
     loadConfig();
+    cache.configGenerator.fetch.showAppInfo();
     final parser = ArgParser();
     final commands = config.scripts.map((e) => e.command);
     for (var e in commands) {
@@ -35,7 +36,8 @@ class RunCommand extends BaseCommand{
     }
     final scriptConfig = config.scripts.singleWhere((e) => e.command == command);
     showScriptInfo(scriptConfig);
-    if(scriptConfig.flutterRun != null && scriptConfig.flutterRun!){
+    stdout.writeln('Loki: ${chalk.green('Launching script ${chalk.cyan(scriptConfig.name)} @ ${chalk.cyan(scriptConfig.workingDir)}')}');
+    if(scriptConfig.stdin != null && scriptConfig.stdin!){
       final split = scriptConfig.exec.split(' ');
       await Process.start(
         split.first, split.sublist(1, split.length),
@@ -45,13 +47,17 @@ class RunCommand extends BaseCommand{
       );
     } else {
       final split = scriptConfig.exec.split(' ');
-      final process = await Process.start(
-        split.first, split.sublist(1, split.length),
-        runInShell: Platform.isWindows,
-        workingDirectory: Directory(scriptConfig.workingDir ?? '.').path
+      final runner = ProcessStartRunner(
+        runner: () => Process.start(
+          split.first, split.sublist(1, split.length),
+          runInShell: Platform.isWindows,
+          workingDirectory: Directory(scriptConfig.workingDir ?? '.').path
+        ),
+        onError: (){
+          stdout.writeln('Loki: ${chalk.green('Failed ❌  while running script ${chalk.cyan(scriptConfig.name)} @ ${chalk.cyan(scriptConfig.workingDir)}')}');
+        }
       );
-      await stdout.addStream(process.stdout);
-      await stderr.addStream(process.stderr);
+      await runner.run();
     }
   }
 

@@ -21,7 +21,7 @@ class AppCommand extends BaseCommand {
   List<Project> _getApps() {
     try {
       loadConfig();
-      return cache.projectFilter.data.apps;
+      return cache.projectFilter.fetch.apps;
     } catch (e) {
       return [];
     }

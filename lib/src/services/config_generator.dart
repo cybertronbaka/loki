@@ -26,14 +26,14 @@ class _ScriptConfigValidationRules{
   Validator description;
   Validator exec;
   Validator workingDir;
-  Validator flutterRun;
+  Validator stdin;
   _ScriptConfigValidationRules({
     required this.root,
     required this.command,
     required this.name,
     required this.description,
     required this.exec,
-    required this.flutterRun,
+    required this.stdin,
     required this.workingDir
   });
 }
@@ -125,7 +125,7 @@ _ScriptConfigValidationRules _scriptsConfigRules = _ScriptConfigValidationRules(
     messagePrefix: ([command]) => chalk.yellowBright('scripts:$command (key)'),
     rules: [_vIsRequired, _vIsString]
   ),
-  flutterRun: Validator(
+  stdin: Validator(
     messagePrefix: ([command]) => chalk.yellowBright('scripts:$command:flutter_run'),
     rules: [_vIsNullOrBool]
   ),
@@ -138,6 +138,7 @@ _ScriptConfigValidationRules _scriptsConfigRules = _ScriptConfigValidationRules(
 class ConfigGenerator {
   Map yaml;
   ConfigGenerator(this.yaml);
+  late LokiConfig config;
 
   factory ConfigGenerator.fromYaml(String path){
     File file = File(path);
@@ -149,20 +150,19 @@ class ConfigGenerator {
   }
 
   LokiConfig generate(){
-    final config = LokiConfig(
+    config = LokiConfig(
         name: _rootRules.name.run(yaml['name']),
         description: _rootRules.description.run(yaml['description']),
         packages: _rootRules.packages.run<YamlList?>(yaml['packages'])?.map((e) => e as String).toList() ?? [],
         scripts: _generateScriptsConfig()
     );
-    showAppInfo(config);
     return config;
   }
 
-  void showAppInfo(LokiConfig config){
-    stdout.write('${chalk.yellowBright('Loki Workspace Info:\n')}'
-        ' ${chalk.blueBright('Name:')} ${chalk.greenBright(config.name)}\n'
-        ' ${chalk.blueBright('Description:')} ${chalk.greenBright(config.description ?? '-')}\n\n'
+  void showAppInfo(){
+    stdout.write('${chalk.yellowBright('Loki Workspace Info 🎉🎉 :\n')}'
+        ' Name: ${chalk.cyan(config.name)}\n'
+        ' Description: ${chalk.cyan(config.description ?? '-')}\n\n'
         '');
   }
 
@@ -180,7 +180,7 @@ class ConfigGenerator {
         exec: _scriptsConfigRules.exec.run(value['exec'], args: key),
         name: _scriptsConfigRules.name.run(value['name'], args: key),
         description: _scriptsConfigRules.description.run(value['description'], args: key),
-        flutterRun: _scriptsConfigRules.flutterRun.run(value['flutter_run'], args: key),
+          stdin: _scriptsConfigRules.stdin.run(value['stdin'], args: key),
         workingDir: _scriptsConfigRules.workingDir.run(value['working_dir'], args: key)
       );
       configs.add(config);

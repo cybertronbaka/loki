@@ -13,17 +13,28 @@ class CleanCommand extends BaseCommand{
   @override
   FutureOr<void> run() async {
     loadConfig();
-    var projects = cache.projectFilter.data.all;
+    cache.configGenerator.fetch.showAppInfo();
+    var projects = cache.projectFilter.fetch.all;
+    cache.projectFilter.fetch.printProjects();
     for (var p in projects) {
       await _clean(p);
     }
+    console.printAllDone();
   }
 
   Future<void> _clean(Project pro) async {
-    stdout.writeln('Loki: ${chalk.yellowBright('Cleaning for ${chalk.blueBright(pro.name)}${chalk.cyan(' @ ')}${chalk.blueBright(pro.dir.path)} (${chalk.cyan(pro.type.name)})')}');
-    final p = await Process.start('flutter', ['clean'], workingDirectory: pro.dir.path, runInShell: true);
-    await stdout.addStream(p.stdout);
-    await stderr.addStream(p.stderr);
+    stdout.writeln('Loki: ${chalk.yellowBright('Cleaning 🚦 for ${chalk.blueBright(pro.name)}${chalk.cyan(' @ ')}${chalk.blueBright(pro.dir.path)} (${chalk.cyan(pro.type.name)})')}');
+    final runner = ProcessStartRunner(
+      runner: () => Process.start('flutter', ['clean'], workingDirectory: pro.dir.path, runInShell: true),
+      clearStdOut: true,
+      onError: (){
+        stdout.writeln('Loki: ${chalk.red('Failed ❌ to clean in ${chalk.cyan(pro.name)} @ ${pro.dir.path} (${chalk.cyan(pro.type.name)})')}');
+      },
+      onSuccess: (){
+        stdout.writeln('Loki: ${chalk.green('Cleaned 🍕 in ${chalk.yellowBright(pro.name)}${chalk.pink(' @ ')}${pro.dir.path} (${chalk.yellowBright(pro.type.name)})')}');
+      }
+    );
+    await runner.run();
     stdout.writeln();
   }
 }

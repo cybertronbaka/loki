@@ -93,7 +93,7 @@ class ProjectFilter {
       throw ArgumentError('Directory does not exist: ${dir.path}');
     }
 
-    dir.listSync(recursive: true).forEach((FileSystemEntity entity) {
+    dir.listSync(recursive: true, followLinks: false).forEach((FileSystemEntity entity) {
       if (entity is Directory) {
         if(_isProject(entity)){
           final yaml = _readPubspecYaml(entity);

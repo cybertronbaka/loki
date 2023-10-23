@@ -1,0 +1,10 @@
+name: dev
+description: This is for development purposes
+packages:
+  - ../loki_test/packages
+scripts:
+  pub:
+    name: pub
+    description: Description
+    exec: flutter pub get
+    working_dir: ../loki_test/

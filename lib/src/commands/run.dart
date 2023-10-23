@@ -1,8 +1,7 @@
 part of commands;
 
+// TODO: Can be written better
 class RunCommand extends BaseCommand{
-  RunCommand();
-
   @override
   ArgParser get argParser => ArgParser.allowAnything();
 
@@ -64,15 +63,22 @@ class RunCommand extends BaseCommand{
 
   @override
   String get usage {
-    loadConfig(false);
-    final availableScripts= 'Available Scripts:\n'
-        '${config.scripts.map((e) {
-          return '  ${e.command}\t\t${e.name}';
-        }).join('\n')}';
+    late String availableScripts;
+    try {
+      loadConfig();
+      availableScripts= 'Available Scripts:\n'
+          '${config.scripts.map((e) {
+        return '  ${e.command}\t\t${e.name}';
+      }).join('\n')}\n';
+    } catch(e) {
+      availableScripts = '';
+    }
     return '$description\n\n'
-        'Usage: loki $name [script_name]\n\n'
-        'Run "loki help" to see global options.\n\n'
-        '$availableScripts\n'
+        'Usage: loki $name [script_name]\n'
+        '${argParser.usage}\n'
+        'Run "loki help" to see global options.'
+        '${availableScripts.isEmpty ? '' : '\n\n'}'
+        '$availableScripts'
     ;
   }
 }

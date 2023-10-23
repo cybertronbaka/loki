@@ -13,8 +13,7 @@ class CleanCommand extends BaseCommand{
   @override
   FutureOr<void> run() async {
     loadConfig();
-    var filter = ProjectFilter().run(config);
-    var projects = filter.packages + filter.apps;
+    var projects = cache.projectFilter.data.all;
     for (var p in projects) {
       await _clean(p);
     }

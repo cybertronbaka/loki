@@ -149,12 +149,21 @@ class ConfigGenerator {
   }
 
   LokiConfig generate(){
-    return LokiConfig(
-      name: _rootRules.name.run(yaml['name']),
-      description: _rootRules.description.run(yaml['description']),
-      packages: _rootRules.packages.run<YamlList?>(yaml['packages'])?.map((e) => e as String).toList() ?? [],
-      scripts: _generateScriptsConfig()
+    final config = LokiConfig(
+        name: _rootRules.name.run(yaml['name']),
+        description: _rootRules.description.run(yaml['description']),
+        packages: _rootRules.packages.run<YamlList?>(yaml['packages'])?.map((e) => e as String).toList() ?? [],
+        scripts: _generateScriptsConfig()
     );
+    showAppInfo(config);
+    return config;
+  }
+
+  void showAppInfo(LokiConfig config){
+    stdout.write('${chalk.yellowBright('App Info:\n')}'
+        ' ${chalk.blueBright('Name:')} ${chalk.greenBright(config.name)}\n'
+        ' ${chalk.blueBright('Description:')} ${chalk.greenBright(config.description ?? '-')}\n\n'
+        '');
   }
 
   List<LokiScriptConfig> _generateScriptsConfig(){

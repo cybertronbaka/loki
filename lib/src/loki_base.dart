@@ -21,6 +21,7 @@ class LokiBase {
         ..addCommand(RunCommand())
         ..addCommand(ValidateCommand())
         ..addCommand(VersionCommand())
+        ..addCommand(AppCommand())
       ;
 
       ArgResults argResults = runner.parse(arguments);
@@ -45,8 +46,7 @@ class LokiBase {
       stdout.writeln(LokiError(e.message).toString());
       exit(1);
     } on UsageException catch(e){
-      stdout.writeln('${LokiError('Improper usage: loki ${arguments.join(' ')}')}\n');
-      stdout.writeln(e.usage);
+      stdout.writeln(e.toString());
       exit(1);
     }
   }

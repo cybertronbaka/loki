@@ -5,9 +5,31 @@ import 'package:chalkdart/chalk_x11.dart';
 import 'package:loki/src/models/models.dart';
 import 'package:yaml/yaml.dart';
 
+enum ProjectFilterMode { apps, packages, both }
+
+extension ProjectFilterModeExt on ProjectFilterMode{
+  bool get shouldAddApp{
+    return [ProjectFilterMode.apps, ProjectFilterMode.both].contains(this);
+  }
+
+  bool get shouldAddPackage{
+    return [ProjectFilterMode.packages, ProjectFilterMode.both].contains(this);
+  }
+}
+
 class ProjectFilter {
+  ProjectFilterMode mode;
+  bool verbose;
+
+  ProjectFilter({
+    this.mode = ProjectFilterMode.both,
+    this.verbose = true
+  });
+
   final List<Project> apps = [];
   final List<Project> packages = [];
+
+  List<Project> get all => packages + apps;
 
   ProjectFilter run(LokiConfig config){
     final pwd = Directory.current;
@@ -29,22 +51,28 @@ class ProjectFilter {
         }
       }
     }
+    _printProjects();
+    return this;
+  }
+
+  void _printProjects(){
+    if(!verbose) return;
 
     if(packages.isNotEmpty){
       stdout.writeln('${chalk.yellowBright('Packages Found (')}${chalk.blueBright(packages.length)}${chalk.yellowBright('):')}');
       for(var pack in packages){
         stdout.writeln('    - ${chalk.blueBright(pack.name)}${chalk.pink(' @ ')}${chalk.blueBright(pack.dir.path)}');
       }
+      stdout.writeln();
     }
-    stdout.writeln();
+
     if(apps.isNotEmpty){
       stdout.writeln('${chalk.yellowBright('Apps Found (')}${chalk.blueBright(apps.length)}${chalk.yellowBright('):')}');
       for(var app in apps){
         stdout.writeln('    - ${chalk.blueBright(app.name)}${chalk.pink(' @ ')}${chalk.blueBright(app.dir.path)}');
       }
+      stdout.writeln();
     }
-    stdout.writeln();
-    return this;
   }
 
   bool _isApp(Directory dir, Map yaml) {
@@ -89,7 +117,11 @@ class ProjectFilter {
         dir: dir,
         type: _isApp(dir, yaml) ?  ProjectType.app : ProjectType.package
     );
-    p.type == ProjectType.app ? apps.add(p) : packages.add(p);
+    if(p.type == ProjectType.app){
+      if(mode.shouldAddApp) apps.add(p);
+    } else {
+      if(mode.shouldAddPackage) packages.add(p);
+    }
     return p;
   }
 

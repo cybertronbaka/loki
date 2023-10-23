@@ -5,14 +5,12 @@ class FetchCommand extends BaseCommand {
   String get description => 'Install dependencies in packages and apps';
 
   @override
-  // TODO: implement name
   String get name => 'fetch';
 
   @override
   FutureOr<void> run() async {
     loadConfig();
-    var filter = ProjectFilter().run(config);
-    var projects = filter.packages + filter.apps;
+    var projects = cache.projectFilter.data.all;
     for (var p in projects) {
       await _fetch(p);
     }

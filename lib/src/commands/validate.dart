@@ -8,9 +8,6 @@ class ValidateCommand extends BaseCommand{
   String get name => 'validate';
 
   @override
-  List<String> get aliases => ['valid', 'v'];
-
-  @override
   FutureOr<void> run() async {
     stdout.write('Validating...');
     try{

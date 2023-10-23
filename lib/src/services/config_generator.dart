@@ -160,7 +160,7 @@ class ConfigGenerator {
   }
 
   void showAppInfo(LokiConfig config){
-    stdout.write('${chalk.yellowBright('App Info:\n')}'
+    stdout.write('${chalk.yellowBright('Loki Workspace Info:\n')}'
         ' ${chalk.blueBright('Name:')} ${chalk.greenBright(config.name)}\n'
         ' ${chalk.blueBright('Description:')} ${chalk.greenBright(config.description ?? '-')}\n\n'
         '');

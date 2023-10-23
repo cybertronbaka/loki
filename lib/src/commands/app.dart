@@ -12,18 +12,10 @@ class AppCommand extends BaseCommand {
   String get name => 'app';
 
   void addOptions() {
-    final apps = _getApps();
+    loadConfig();
+    final apps = cache.projectFilter.fetch.apps;
     for (var app in apps) {
       addSubcommand(AppSubcommand(app));
-    }
-  }
-
-  List<Project> _getApps() {
-    try {
-      loadConfig();
-      return cache.projectFilter.fetch.apps;
-    } catch (e) {
-      return [];
     }
   }
 }

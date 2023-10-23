@@ -8,9 +8,6 @@ class VersionCommand extends BaseCommand{
   String get name => 'version';
 
   @override
-  List<String> get aliases => ['V'];
-
-  @override
   FutureOr<void> run() async {
     stdout.writeln('Loki: ${chalk.greenBright('v$version')}');
   }

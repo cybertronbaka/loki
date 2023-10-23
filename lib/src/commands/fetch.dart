@@ -1,8 +1,15 @@
 part of commands;
 
 class FetchCommand extends BaseCommand {
+  @override
+  String get description => 'Install dependencies in packages and apps';
 
-  Future<void> run() async {
+  @override
+  // TODO: implement name
+  String get name => 'fetch';
+
+  @override
+  FutureOr<void> run() async {
     loadConfig();
     var filter = ProjectFilter().run(config);
     var projects = filter.packages + filter.apps;

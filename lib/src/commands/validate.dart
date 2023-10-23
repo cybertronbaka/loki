@@ -1,9 +1,24 @@
 part of commands;
 
 class ValidateCommand extends BaseCommand{
-  Future<void>  run() async {
+  @override
+  String get description => 'Validate loki.yaml config file.';
+
+  @override
+  String get name => 'validate';
+
+  @override
+  List<String> get aliases => ['valid', 'v'];
+
+  @override
+  FutureOr<void> run() async {
     stdout.write('Validating...');
-    loadConfig();
+    try{
+      loadConfig();
+    } catch(e) {
+      stdout.write('\r');
+      rethrow;
+    }
     stdout.write('\r\rLoki: ${chalk.greenBright('All good!')}\n');
   }
 }

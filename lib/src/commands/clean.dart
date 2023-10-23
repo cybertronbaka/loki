@@ -1,7 +1,17 @@
 part of commands;
 
 class CleanCommand extends BaseCommand{
-  Future<void> run() async {
+  @override
+  String get description => 'Runs `flutter clean` in all packages and apps';
+
+  @override
+  String get name => 'clean';
+
+  @override
+  List<String> get aliases => ['c'];
+
+  @override
+  FutureOr<void> run() async {
     loadConfig();
     var filter = ProjectFilter().run(config);
     var projects = filter.packages + filter.apps;

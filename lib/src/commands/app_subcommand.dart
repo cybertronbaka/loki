@@ -23,7 +23,7 @@ class AppSubcommand extends BaseCommand {
     if(flavor != null){
       args += ['--flavor', flavor, '-t', 'lib/main_$flavor.dart'];
     }
-    stdout.writeln(chalk.greenBright('Launching app ${chalk.cyan(app.name)}${flavor != null ? ' with flavor ${chalk.cyan(flavor)}' : ''} 🚀 '));
+    stdout.writeln(chalk.green('Launching app ${chalk.cyan(app.name)}${flavor != null ? ' with flavor ${chalk.cyan(flavor)}' : ''} 🚀 '));
     if(argResults!['verbose'] as bool){
       args.add('-v');
     }

@@ -53,7 +53,7 @@ class LokiBase {
   }
 
   void _drawLogo(){
-    stdout.write(chalk.greenBright(''
+    stdout.write(chalk.cyan(''
       ' _     ____  _  __ _ \n'
       '/ \\   /  _ \\/ |/ // \\\n'
       '| |   | / \\||   / | |\n'

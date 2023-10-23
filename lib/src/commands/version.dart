@@ -9,7 +9,7 @@ class VersionCommand extends BaseCommand{
 
   @override
   FutureOr<void> run() async {
-    stdout.writeln('Loki: ${chalk.greenBright('v$version')}');
+    stdout.writeln('Loki: ${chalk.cyan('v$version')}');
     console.printAttribution();
   }
 }

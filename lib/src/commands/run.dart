@@ -62,9 +62,9 @@ class RunCommand extends BaseCommand{
   }
 
   void showScriptInfo(LokiScriptConfig scriptConfig){
-    stdout.writeln(chalk.yellowBright('Running Script (${chalk.greenBright(scriptConfig.name)})\n'
-        'Working Directory: ${chalk.greenBright(scriptConfig.workingDir ?? '.')}\n'
-        'Description: ${chalk.greenBright(scriptConfig.description ?? '-')}\n'));
+    stdout.writeln(chalk.yellowBright('Running Script (${chalk.cyan(scriptConfig.name)})\n'
+        'Working Directory: ${chalk.cyan(scriptConfig.workingDir ?? '.')}\n'
+        'Description: ${chalk.cyan(scriptConfig.description ?? '-')}\n'));
   }
 
   @override

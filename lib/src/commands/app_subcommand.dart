@@ -16,9 +16,12 @@ class AppSubcommand extends BaseCommand {
   FutureOr<void> run() async {
     String device = argResults!['device'];
     String? flavor = argResults!['flavor'];
-    var args = ['run', '-d', device];
+    var args = ['run', '-d', device, '--${argResults!['environment']}'];
     if(flavor != null){
       args += ['--flavor', flavor, '-t', 'lib/main_$flavor.dart'];
+    }
+    if(argResults!['verbose'] as bool){
+      args.add('-v');
     }
     await Process.start(
       'flutter', args,
@@ -48,6 +51,24 @@ class AppSubcommand extends BaseCommand {
       'flavor',
       abbr: 'f',
       help: 'Run app into a flavor',
+    );
+    argParser.addOption(
+      'environment',
+      abbr: 'e',
+      defaultsTo: 'debug',
+      help: 'Run in debug, profile or release',
+      allowed: ['debug', 'release', 'profile'],
+      allowedHelp: {
+        'debug': 'Build a debug version of your app (default mode).',
+        'profile': 'Build a version of your app specialized for performance profiling.',
+        'release': ' Build a release version of your app.'
+      }
+    );
+    argParser.addFlag(
+      'verbose',
+      abbr: 'v',
+      defaultsTo: false,
+      help: 'Noisy logging, including all shell commands executed'
     );
   }
 }

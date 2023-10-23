@@ -7,7 +7,7 @@ class AppSubcommand extends BaseCommand {
   }
 
   @override
-  String get description => 'App Located @ ${app.dir}';
+  String get description => 'Run app (${app.name})';
 
   @override
   String get name => app.name;
@@ -42,7 +42,7 @@ class AppSubcommand extends BaseCommand {
         'device',
         abbr: 'd',
         defaultsTo: devices.first.id,
-        help: 'Choose a device to run default is ${devices.first.id}',
+        help: 'Choose a device to run. Defaults to ${devices.first.id}',
         allowed: devices.map((e) => e.id),
         allowedHelp: allowedHelp
       );
@@ -50,13 +50,13 @@ class AppSubcommand extends BaseCommand {
     argParser.addOption(
       'flavor',
       abbr: 'f',
-      help: 'Run app into a flavor',
+      help: 'Run app into a flavor (optional)',
     );
     argParser.addOption(
       'environment',
       abbr: 'e',
       defaultsTo: 'debug',
-      help: 'Run in debug, profile or release',
+      help: 'Run in debug, profile or release. Defaults to debug.',
       allowed: ['debug', 'release', 'profile'],
       allowedHelp: {
         'debug': 'Build a debug version of your app (default mode).',
@@ -67,8 +67,9 @@ class AppSubcommand extends BaseCommand {
     argParser.addFlag(
       'verbose',
       abbr: 'v',
+      negatable: false,
       defaultsTo: false,
-      help: 'Noisy logging, including all shell commands executed'
+      help: 'Noisy logging, including all shell commands executed (optional)'
     );
   }
 }

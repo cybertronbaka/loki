@@ -1,7 +1,7 @@
 part of commands;
 
 /// A command for validating the loki.yaml config file.
-class ValidateCommand extends BaseCommand{
+class ValidateCommand extends BaseCommand {
   @override
   String get description => 'Validate loki.yaml config file.';
 

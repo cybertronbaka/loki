@@ -4,7 +4,7 @@ import '../errors/errors.dart';
 import 'console.dart';
 
 /// A utility class for running processes and handling their output. It should only be used with Process.start and without inheritStdio
-class ProcessStartRunner{
+class ProcessStartRunner {
   /// Indicates whether to clear standard output before running the process.
   bool clearStdOut;
 
@@ -17,12 +17,11 @@ class ProcessStartRunner{
   /// A function that starts a process and returns a `Future<Process>`.
   Future<Process> Function() runner;
 
-  ProcessStartRunner({
-    required this.runner,
-    this.clearStdOut = false,
-    this.onError,
-    this.onSuccess
-  });
+  ProcessStartRunner(
+      {required this.runner,
+      this.clearStdOut = false,
+      this.onError,
+      this.onSuccess});
 
   /// Runs the process, handles its output, and performs specified callbacks.
   ///
@@ -34,31 +33,31 @@ class ProcessStartRunner{
     int stdErrLines = 0;
     final p = await runner();
     await p.stdout.listen((event) {
-      var str = event.map((e){
+      var str = event.map((e) {
         final ch = String.fromCharCode(e);
-        if(ch == '\n') stdOutLines++;
+        if (ch == '\n') stdOutLines++;
         return ch;
       }).join('');
       stdout.write(str);
     }).asFuture();
     StringBuffer stdErr = StringBuffer();
     await p.stderr.listen((event) async {
-      stdErr.write(event.map((e){
+      stdErr.write(event.map((e) {
         final ch = String.fromCharCode(e);
-        if(ch == '\n') stdErrLines++;
+        if (ch == '\n') stdErrLines++;
         return ch;
       }).join(''));
     }).asFuture();
-    if(clearStdOut && stdOutLines != 0){
+    if (clearStdOut && stdOutLines != 0) {
       List.generate(stdOutLines, (i) => console.moveUpAndClear());
     }
-    if(stdErrLines != 0) {
+    if (stdErrLines != 0) {
       console.moveUpAndClear();
-      if(onError != null) onError!();
+      if (onError != null) onError!();
       throw LokiError(stdErr.toString());
     } else {
-      if(clearStdOut) console.moveUpAndClear();
-      if(onSuccess != null) onSuccess!();
+      if (clearStdOut) console.moveUpAndClear();
+      if (onSuccess != null) onSuccess!();
     }
   }
 }

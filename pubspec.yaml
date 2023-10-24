@@ -1,14 +1,14 @@
 name: loki
-description: A starting point for Dart libraries or applications.
-version: 0.0.1
-# repository: https://github.com/my_org/my_repo
+description: Loki is a command-line interface (CLI) tool designed for managing Dart and Flutter projects featuring multiple packages.
+version: 0.0.2
+repository: https://github.com/cybertronbaka/loki
+homepage: https://github.com/cybertronbaka/loki
+issue_tracker: https://github.com/cybertronbaka/loki/issues
 
 environment:
   sdk: ^3.1.3
 
-# Add regular dependencies here.
 dependencies:
-  # path: ^1.8.0
   yaml: ^3.1.2
   chalkdart: ^2.0.9
   args: ^2.4.2
@@ -19,3 +19,7 @@ dev_dependencies:
 
 executables:
   loki: loki
+
+topics:
+  - packages
+  - workspace

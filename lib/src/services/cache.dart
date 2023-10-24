@@ -7,18 +7,16 @@ import 'package:loki/src/services/devices_filter.dart';
 import 'package:loki/src/services/project_filter.dart';
 
 /// A generic cache object that can store and lazily load data of type [T].
-class CacheObject<T>{
+class CacheObject<T> {
   late T _data;
   bool _loaded = false;
   T Function() load;
 
-  CacheObject({
-    required this.load
-  });
+  CacheObject({required this.load});
 
   /// Retrieves the cached data. Loads and caches if not already loaded.
   T get fetch {
-    if(_loaded) return _data;
+    if (_loaded) return _data;
 
     this._data = load();
     _loaded = true;
@@ -27,7 +25,7 @@ class CacheObject<T>{
 }
 
 /// A cache manager for Loki related objects.
-class LokiCache{
+class LokiCache {
   /// Cache instance of [ConfigGenerator]
   ///
   /// Usage:
@@ -53,23 +51,17 @@ class LokiCache{
   late CacheObject<DevicesFilter> devicesFilter;
 
   /// Constructs a [LokiCache] and initializes cache objects.
-  LokiCache(){
-    configGenerator = CacheObject<ConfigGenerator>(
-      load: () {
-        String path = '${Directory.current.absolute.path}/loki.yaml';
-        return ConfigGenerator.fromYaml(path)..generate();
-      }
-    );
-    projectFilter = CacheObject<ProjectFilter>(
-      load: () {
-        return ProjectFilter().run(configGenerator.fetch.config);
-      }
-    );
-    devicesFilter = CacheObject<DevicesFilter>(
-      load: (){
-        return DevicesFilter()..run();
-      }
-    );
+  LokiCache() {
+    configGenerator = CacheObject<ConfigGenerator>(load: () {
+      String path = '${Directory.current.absolute.path}/loki.yaml';
+      return ConfigGenerator.fromYaml(path)..generate();
+    });
+    projectFilter = CacheObject<ProjectFilter>(load: () {
+      return ProjectFilter().run(configGenerator.fetch.config);
+    });
+    devicesFilter = CacheObject<DevicesFilter>(load: () {
+      return DevicesFilter()..run();
+    });
   }
 }
 

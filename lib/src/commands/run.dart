@@ -34,7 +34,7 @@ class RunSubcommand extends BaseCommand {
       _command = all.first;
       _args = all.sublist(1, all.length);
       _exec = exec;
-      if (_handleCD() || await _handleLoki()) continue;
+      if (_handleCD() || await _handleLoki() || await _handleLKR()) continue;
 
       script.stdin != null && script.stdin!
           ? await _runWithStdin()
@@ -50,8 +50,9 @@ class RunSubcommand extends BaseCommand {
         runInShell: Platform.isWindows,
         workingDirectory: _currentDir.path);
     final exitCode = await process.exitCode;
-    if (exitCode != 0)
+    if (exitCode != 0) {
       throw LokiError('Failed ❌ running script ${chalk.cyan(script.name)}');
+    }
   }
 
   Future<void> _runWithoutStdin() async {
@@ -72,8 +73,9 @@ class RunSubcommand extends BaseCommand {
   bool _handleCD() {
     if (_command != 'cd') return false;
 
-    if (_command == 'cd' && _args.isEmpty)
+    if (_command == 'cd' && _args.isEmpty) {
       throw LokiError('Cannot cd into nothing!');
+    }
     if (_command == 'cd') {
       _currentDir = Directory('${_currentDir.path}/${_args[0]}');
       return true;
@@ -88,6 +90,16 @@ class RunSubcommand extends BaseCommand {
     if (_command != 'loki') return false;
 
     await LokiBase().run(_args);
+    return true;
+  }
+
+  /// Handle lkr commands (lkr: Short for loki run)
+  ///
+  /// Returns true if loki is to be executed and otherwise
+  Future<bool> _handleLKR() async {
+    if (_command != 'lkr') return false;
+
+    await LokiBase().run(['run'] + _args);
     return true;
   }
 

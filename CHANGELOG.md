@@ -1,4 +1,11 @@
+## 0.1.0
+
+- chore: update README.md and loki.yaml
+- feat: scripts can execute 'loki run' with a shorthand 'lkr'
+- feat: sequential and recursive scripts with loki. fixed description issue with run command.
+
 ## 0.0.2
+
 - chore: add MIT LICENSE
 - chore: update CHANGELOG.md
 - chore: After dart analyze and format

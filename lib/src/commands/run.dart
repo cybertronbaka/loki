@@ -7,11 +7,18 @@ class RunSubcommand extends BaseCommand {
   LokiScriptConfig script;
   RunSubcommand(this.script);
 
+  late Directory _currentDir;
+
+  late String _exec;
+  late String _command;
+  late List<String> _args;
+
   @override
   String get name => script.command;
 
   @override
-  String get description => script.description ?? 'Runs ${script.description}';
+  String get description =>
+      '${script.description ?? 'Runs ${script.exec}'}\n\nTo run a script in sequence join the scripts using &&&.';
 
   @override
   FutureOr<void>? run() async {
@@ -19,26 +26,81 @@ class RunSubcommand extends BaseCommand {
     stdout.writeln(
         'Loki: ${chalk.green('Launching 🚀 script ${chalk.cyan(script.name)} @ ${chalk.cyan(script.workingDir)}')}\n');
 
-    if (script.stdin != null && script.stdin!) {
-      final split = script.exec.split(' ');
-      await Process.start(split.first, split.sublist(1, split.length),
-          mode: ProcessStartMode.inheritStdio,
-          runInShell: Platform.isWindows,
-          workingDirectory: Directory(script.workingDir ?? '.').path);
-    } else {
-      final split = script.exec.split(' ');
-      final runner = ProcessStartRunner(
-          runner: () => Process.start(
-              split.first, split.sublist(1, split.length),
-              runInShell: Platform.isWindows,
-              workingDirectory: Directory(script.workingDir ?? '.').path),
-          onError: () {
-            stdout.writeln(
-                'Loki: ${chalk.green('Failed ❌  while running script ${chalk.cyan(script.name)} @ ${chalk.cyan(script.workingDir)}')}');
-          });
-      await runner.run();
-      console.printAllDone();
+    final execs = script.exec.split('&&').map((e) => e.trim());
+    _currentDir = Directory(script.workingDir ?? '.');
+
+    for (var exec in execs) {
+      final all = exec.split(' ').map((e) => e.trim()).toList();
+      _command = all.first;
+      _args = all.sublist(1, all.length);
+      _exec = exec;
+      if (_handleCD() || await _handleLoki() || await _handleLKR()) continue;
+
+      script.stdin != null && script.stdin!
+          ? await _runWithStdin()
+          : await _runWithoutStdin();
     }
+    console.printAllDone();
+  }
+
+  /// Run without standard input
+  Future<void> _runWithStdin() async {
+    final process = await Process.start(_command, _args,
+        mode: ProcessStartMode.inheritStdio,
+        runInShell: Platform.isWindows,
+        workingDirectory: _currentDir.path);
+    final exitCode = await process.exitCode;
+    if (exitCode != 0) {
+      throw LokiError('Failed ❌ running script ${chalk.cyan(script.name)}');
+    }
+  }
+
+  Future<void> _runWithoutStdin() async {
+    final runner = ProcessStartRunner(
+        runner: () => Process.start(_command, _args,
+            runInShell: true, workingDirectory: _currentDir.path),
+        onError: () {
+          stdout.writeln(
+              'Loki: ${chalk.green('Failed ❌  while running exec ${chalk.cyan(_exec)} @ ${chalk.cyan(script.workingDir)}')}');
+          throw LokiError('Failed ❌ running ${chalk.cyan(script.name)}');
+        });
+    await runner.run();
+  }
+
+  /// Handle cd commands
+  ///
+  /// Returns true if cd is to be executed and otherwise
+  bool _handleCD() {
+    if (_command != 'cd') return false;
+
+    if (_command == 'cd' && _args.isEmpty) {
+      throw LokiError('Cannot cd into nothing!');
+    }
+    if (_command == 'cd') {
+      _currentDir = Directory('${_currentDir.path}/${_args[0]}');
+      return true;
+    }
+    return false;
+  }
+
+  /// Handle loki commands
+  ///
+  /// Returns true if loki is to be executed and otherwise
+  Future<bool> _handleLoki() async {
+    if (_command != 'loki') return false;
+
+    await LokiBase().run(_args);
+    return true;
+  }
+
+  /// Handle lkr commands (lkr: Short for loki run)
+  ///
+  /// Returns true if loki is to be executed and otherwise
+  Future<bool> _handleLKR() async {
+    if (_command != 'lkr') return false;
+
+    await LokiBase().run(['run'] + _args);
+    return true;
   }
 
   /// Displays information about the script.
@@ -57,7 +119,7 @@ class RunCommand extends BaseCommand {
   }
   @override
   String get description =>
-      'Run a script by name defined in the workspace loki.yaml config file.';
+      'Run a script by name defined in the workspace loki.yaml config file.\n\nTo run a script in sequence join the scripts using &&&.';
 
   @override
   String get name => 'run';

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:chalkdart/chalk.dart';
 import 'package:loki/src/errors/errors.dart';
 import 'package:loki/src/models/models.dart';
+import 'package:loki/src/services/cache.dart';
 
 /// A class for filtering and retrieving information about available Flutter devices.
 class DevicesFilter {
@@ -32,6 +33,8 @@ class DevicesFilter {
 
   /// Prints information about the available Flutter devices to the console.
   void printDevices() {
+    if (!cache.firstTime) return;
+
     stdout.writeln(
         chalk.yellowBright('Devices available 💻 (${devices.length}):'));
     for (var d in devices) {

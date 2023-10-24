@@ -79,12 +79,21 @@ scripts:
     exec: flutter run # Required
     working_dir: apps/app1 # Optional (Default is . )
     stdin: true # Optional
+  test:
+    name: Run tests
+    exec: flutter test
+  analyze:
+    name: analyze
+    exec: dart analyze
+  test:analyze:1:
+    exec: lkr analyze && loki run test
 ```
 
 In this context,
 - `name` denotes the script's name and is optional.
 - `working_dir` determines where `exec` will be executed.
-- `stdin: true` facilitates the script's capacity to receive input directly from users via the terminal. This proves valuable for scripts like flutter run to enable hot reload and hot restart.
+- `stdin: true` enables the script to directly receive input from users through the terminal. This is particularly useful for scripts like flutter run which benefit from features like hot reload and hot restart.
+- `exec` field specifies the actual command that will be executed by your script. Currently, we have a single shorthand, `lkr`, which corresponds to the `loki run` command. Please note that `lkr` cannot be used independently in a shell; it is exclusively scoped within the context of `loki run`
 
 #### To obtain a list of scripts, execute:
 

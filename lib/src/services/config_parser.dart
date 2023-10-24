@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chalkdart/chalk.dart';
 import 'package:loki/src/errors/errors.dart';
 import 'package:loki/src/models/models.dart';
+import 'package:loki/src/services/cache.dart';
 import 'package:loki/src/services/validator.dart';
 import 'package:yaml/yaml.dart';
 
@@ -141,6 +142,8 @@ class ConfigParser {
 
   /// Displays information about the Loki workspace.
   void showAppInfo() {
+    if (!cache.firstTime) return;
+
     stdout.write('${chalk.yellowBright('Loki Workspace Info 🎉🎉 :\n')}'
         ' Name: ${chalk.cyan(config.name)}\n'
         ' Description: ${chalk.cyan(config.description ?? '-')}\n\n'

@@ -47,6 +47,7 @@ class LokiCache {
   /// DevicesFilter devicesFilter = cache.devicesFilter.fetch
   /// ```
   late CacheObject<DevicesFilter> devicesFilter;
+  bool firstTime = true;
 
   /// Constructs a [LokiCache] and initializes cache objects.
   LokiCache() {

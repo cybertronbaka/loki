@@ -142,7 +142,7 @@ class ConfigParser {
 
   /// Displays information about the Loki workspace.
   void showAppInfo() {
-    if (!cache.firstTime) return;
+    if (!cache.firstTime.fetch) return;
 
     stdout.write('${chalk.yellowBright('Loki Workspace Info 🎉🎉 :\n')}'
         ' Name: ${chalk.cyan(config.name)}\n'

@@ -1,4 +1,9 @@
+## 0.1.0
+
+- feat: sequential and recursive scripts with loki. fixed description issue with run command.
+
 ## 0.0.2
+
 - chore: add MIT LICENSE
 - chore: update CHANGELOG.md
 - chore: After dart analyze and format

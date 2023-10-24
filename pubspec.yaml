@@ -4,7 +4,7 @@ version: 0.1.0
 repository: https://github.com/cybertronbaka/loki
 homepage: https://github.com/cybertronbaka/loki
 issue_tracker: https://github.com/cybertronbaka/loki/issues
-documentation:
+documentation: https://pub.dev/documentation/loki/latest/
 
 environment:
   sdk: ^3.1.3

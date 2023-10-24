@@ -15,5 +15,5 @@ scripts:
   test1:
     name: Test1
     description: Running Test 1
-    exec: loki run activate && loki run pub && cd ../loki_test/packages/test1 && flutter run -d linux
+    exec: lkr activate && loki run pub && cd ../loki_test/packages/test1 && flutter run -d linux
     stdin: true

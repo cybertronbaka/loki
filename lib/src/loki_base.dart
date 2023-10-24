@@ -24,6 +24,11 @@ final _description =
 /// with multiple packages. Loki is designed to address issues related to stdin
 /// when running Flutter apps with Melos.
 class LokiBase {
+  /// If it is being run for first time or not
+  bool firstTime;
+
+  LokiBase([this.firstTime = true]);
+
   /// Runs the Loki CLI tool with the provided arguments.
   ///
   /// It initializes a [CommandRunner] and adds various commands for different
@@ -36,8 +41,8 @@ class LokiBase {
   /// Exits with code 1 on [ArgParserException] if there is an issue parsing command-line arguments.
   /// Exits with code 1 on [UsageException] if there is an issue with command usage.
   Future<void> run(List<String> arguments) async {
+    cache.firstTime.set(firstTime);
     _drawLogo();
-    cache.firstTime = false;
 
     try {
       final runner = CommandRunner<void>(_executableName, _description)
@@ -72,7 +77,7 @@ class LokiBase {
 
   /// Draws the Loki logo to the console.
   void _drawLogo() {
-    if (!cache.firstTime) {
+    if (!cache.firstTime.fetch) {
       stdout.writeln(
           '\nLoki: ${chalk.yellowBright('Running another instance of loki,,,')}\n');
       return;

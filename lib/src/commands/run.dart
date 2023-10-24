@@ -24,7 +24,7 @@ class RunSubcommand extends BaseCommand {
   FutureOr<void>? run() async {
     showScriptInfo();
     stdout.writeln(
-        'Loki: ${chalk.green('Launching 🚀 script ${chalk.cyan(script.name)} @ ${chalk.cyan(script.workingDir)}')}\n');
+        'Loki: ${chalk.green('Launching 🚀 script ${chalk.cyan(script.name ?? script.exec)} @ ${chalk.cyan(script.workingDir ?? '.')}')}\n');
 
     final execs = script.exec.split('&&').map((e) => e.trim());
     _currentDir = Directory(script.workingDir ?? '.');
@@ -51,7 +51,8 @@ class RunSubcommand extends BaseCommand {
         workingDirectory: _currentDir.path);
     final exitCode = await process.exitCode;
     if (exitCode != 0) {
-      throw LokiError('Failed ❌ running script ${chalk.cyan(script.name)}');
+      throw LokiError(
+          'Failed ❌ running script ${chalk.cyan(script.name ?? script.exec)}');
     }
   }
 
@@ -61,8 +62,9 @@ class RunSubcommand extends BaseCommand {
             runInShell: true, workingDirectory: _currentDir.path),
         onError: () {
           stdout.writeln(
-              'Loki: ${chalk.green('Failed ❌  while running exec ${chalk.cyan(_exec)} @ ${chalk.cyan(script.workingDir)}')}');
-          throw LokiError('Failed ❌ running ${chalk.cyan(script.name)}');
+              'Loki: ${chalk.green('Failed ❌  while running exec ${chalk.cyan(_exec)} @ ${chalk.cyan(script.workingDir ?? '.')}')}');
+          throw LokiError(
+              'Failed ❌ running ${chalk.cyan(script.name ?? script.exec)}');
         });
     await runner.run();
   }
@@ -89,7 +91,7 @@ class RunSubcommand extends BaseCommand {
   Future<bool> _handleLoki() async {
     if (_command != 'loki') return false;
 
-    await LokiBase().run(_args);
+    await LokiBase(false).run(_args);
     return true;
   }
 
@@ -99,16 +101,16 @@ class RunSubcommand extends BaseCommand {
   Future<bool> _handleLKR() async {
     if (_command != 'lkr') return false;
 
-    await LokiBase().run(['run'] + _args);
+    await LokiBase(false).run(['run'] + _args);
     return true;
   }
 
   /// Displays information about the script.
   void showScriptInfo() {
-    stdout.writeln(
-        chalk.yellowBright('Running Script (${chalk.cyan(script.name)})\n'
-            'Working Directory: ${chalk.cyan(script.workingDir ?? '.')}\n'
-            'Description: ${chalk.cyan(script.description ?? '-')}\n'));
+    stdout.writeln(chalk.yellowBright(
+        'Running Script (${chalk.cyan(script.name ?? script.exec)})\n'
+        'Working Directory: ${chalk.cyan(script.workingDir ?? '.')}\n'
+        'Description: ${chalk.cyan(script.description ?? '-')}\n'));
   }
 }
 

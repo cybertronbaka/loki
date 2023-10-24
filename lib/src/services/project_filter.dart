@@ -45,7 +45,7 @@ class ProjectFilter {
 
   /// Prints information about the discovered projects to the console.
   void printProjects() {
-    if (!cache.firstTime) return;
+    if (!cache.firstTime.fetch) return;
 
     if (packages.isNotEmpty) {
       stdout.writeln(

@@ -1,2 +1,2 @@
 /// The current version of the package.
-const String version = '0.1.0';
+const String version = '0.1.1';

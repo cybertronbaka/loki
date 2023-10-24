@@ -1,11 +1,15 @@
 import 'package:loki/src/errors/errors.dart';
 
+/// A class for defining validation rules and applying them to data.
 class Validator{
   String Function([dynamic args])? messagePrefix;
   List<ValidationRules> rules;
 
   Validator({this.rules = const [], this.messagePrefix});
 
+  /// Validates the provided [data] against the defined rules.
+  ///
+  /// Optionally, [throwErrors] can be set to true to throw a [LokiError] on validation failure.
   bool validate(data, {bool throwErrors = false, args}){
     bool valid = true;
     valid = valid && rules.every((rule){
@@ -21,12 +25,16 @@ class Validator{
     return valid;
   }
 
+  /// Runs the validation process and returns the validated data.
+  ///
+  /// Throws a [LokiError] if validation fails.
   T run<T>(data, {args}){
     validate(data, throwErrors: true, args: args);
     return data as T;
   }
 }
 
+/// A class for defining individual validation rules.
 class ValidationRules{
   bool Function(dynamic data) check;
   String Function([dynamic args]) message;

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the run method from the LokiBase class, for the Dart programming language.">
+  <title>run method - LokiBase class - loki library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">loki</a></li>
+    <li><a href="../../loki/loki-library.html">loki</a></li>
+    <li><a href="../../loki/LokiBase-class.html">LokiBase</a></li>
+    <li class="self-crumb">run method</li>
+  </ol>
+  <div class="self-name">run</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div
+      id="dartdoc-main-content"
+      class="main-content"
+      data-above-sidebar="loki&#47;LokiBase-class-sidebar.html"
+      data-below-sidebar="">
+      <div>
+<h1><span class="kind-method">run</span> method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">run</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="run-param-arguments"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span> <span class="parameter-name">arguments</span></span></li>
+</ol>)
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Runs the Loki CLI tool with the provided arguments.</p>
+<p>It initializes a <a href="https://pub.dev/documentation/args/2.4.2/command_runner/CommandRunner-class.html">CommandRunner</a> and adds various commands for different
+functionalities, such as fetching, cleaning, listing, running, validating,
+viewing version, and managing applications.</p>
+<p>Exits with code 1 on <a href="https://api.flutter.dev/flutter/dart-io/PathNotFoundException-class.html">PathNotFoundException</a> if loki.yaml is not found.
+Exits with code 1 on <code>LokiError</code> for other Loki-specific errors.
+Exits with code 1 on <a href="https://pub.dev/documentation/yaml/3.1.2/yaml/YamlException-class.html">YamlException</a> if there is an issue parsing Yaml.
+Exits with code 1 on <a href="https://pub.dev/documentation/args/2.4.2/args/ArgParserException-class.html">ArgParserException</a> if there is an issue parsing command-line arguments.
+Exits with code 1 on <a href="https://pub.dev/documentation/args/2.4.2/command_runner/UsageException-class.html">UsageException</a> if there is an issue with command usage.</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; run(List&lt;String&gt; arguments) async {
+  _drawLogo();
+
+  try {
+    final runner = CommandRunner&lt;void&gt;(_executableName, _description)
+      ..addCommand(FetchCommand())
+      ..addCommand(CleanCommand())
+      ..addCommand(ListCommand())
+      ..addCommand(RunCommand())
+      ..addCommand(ValidateCommand())
+      ..addCommand(VersionCommand())
+      ..addCommand(AppCommand())
+    ;
+
+    await runner.run(arguments);
+  } on PathNotFoundException catch (e, _) {
+    stdout.writeln(LokiError(&#39;Could not find loki.yaml&#39;).toString());
+    exit(1);
+  } on LokiError catch (e, _) {
+    stdout.writeln(e.toString());
+    exit(1);
+  } on YamlException catch (e) {
+    stdout.writeln(LokiError(&#39;Could not parse Yaml.${chalk.normal(
+        &#39;\nPlease check the file and try again&#39;)}&#39;).toString());
+    exit(1);
+  } on ArgParserException catch(e){
+    stdout.writeln(LokiError(e.message).toString());
+    exit(1);
+  } on UsageException catch(e){
+    stdout.writeln(e.toString());
+    exit(1);
+  }
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">loki</a></li>
+    <li><a href="../../loki/loki-library.html">loki</a></li>
+    <li><a href="../../loki/LokiBase-class.html">LokiBase</a></li>
+    <li class="self-crumb">run method</li>
+</ol>
+
+
+    <h5>LokiBase class</h5>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    loki
+      0.0.1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

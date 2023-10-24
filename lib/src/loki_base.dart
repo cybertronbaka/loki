@@ -10,14 +10,28 @@ import 'package:loki/src/services/console.dart';
 import 'package:loki/src/version.dart';
 import 'package:yaml/yaml.dart';
 
+/// The name of the executable.
 const _executableName = 'loki';
+/// The description of the CLI tool.
 final _description = 'A CLI tool for managing Dart & Flutter projects with multiple packages.\n\n'
     'Made only because running flutter apps with melos was had an issue with stdin.\n\n'
     '${console.attributionText}';
 
+/// A base class for the Loki CLI tool, which manages Dart & Flutter projects
+/// with multiple packages. Loki is designed to address issues related to stdin
+/// when running Flutter apps with Melos.
 class LokiBase {
-
-
+  /// Runs the Loki CLI tool with the provided arguments.
+  ///
+  /// It initializes a [CommandRunner] and adds various commands for different
+  /// functionalities, such as fetching, cleaning, listing, running, validating,
+  /// viewing version, and managing applications.
+  ///
+  /// Exits with code 1 on [PathNotFoundException] if loki.yaml is not found.
+  /// Exits with code 1 on [LokiError] for other Loki-specific errors.
+  /// Exits with code 1 on [YamlException] if there is an issue parsing Yaml.
+  /// Exits with code 1 on [ArgParserException] if there is an issue parsing command-line arguments.
+  /// Exits with code 1 on [UsageException] if there is an issue with command usage.
   Future<void> run(List<String> arguments) async {
     _drawLogo();
 
@@ -52,6 +66,7 @@ class LokiBase {
     }
   }
 
+  /// Draws the Loki logo to the console.
   void _drawLogo(){
     stdout.write(chalk.cyan(''
       ' _     ____  _  __ _ \n'

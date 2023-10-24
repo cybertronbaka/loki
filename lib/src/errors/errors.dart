@@ -2,6 +2,7 @@ library errors;
 
 import 'package:chalkdart/chalk.dart';
 
+/// Custom error class for Loki-specific errors.
 class LokiError extends Error {
   String message;
   LokiError([this.message = '']);
@@ -12,6 +13,7 @@ class LokiError extends Error {
   }
 }
 
+/// Error thrown when an unexpected data type is encountered.
 class UnexpectedTypeError extends LokiError{
   Type type;
   String key;
@@ -25,6 +27,7 @@ class UnexpectedTypeError extends LokiError{
   }
 }
 
+/// Error thrown when the loki.yaml file is empty.
 class EmptyYamlFileError extends LokiError {
   @override
   String toString() {

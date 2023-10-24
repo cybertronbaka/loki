@@ -135,11 +135,13 @@ _ScriptConfigValidationRules _scriptsConfigRules = _ScriptConfigValidationRules(
   )
 );
 
+/// Class responsible for generating Loki configurations from YAML data.
 class ConfigGenerator {
   Map yaml;
   ConfigGenerator(this.yaml);
   late LokiConfig config;
-
+  /// Factory method to create a [ConfigGenerator] from a YAML file path.
+  /// [path] The file path of the YAML file.
   factory ConfigGenerator.fromYaml(String path){
     File file = File(path);
     String yamlString = file.readAsStringSync();
@@ -149,6 +151,7 @@ class ConfigGenerator {
     return ConfigGenerator(yaml);
   }
 
+  /// Generates a LokiConfig based on the provided YAML data.
   LokiConfig generate(){
     config = LokiConfig(
         name: _rootRules.name.run(yaml['name']),
@@ -159,6 +162,7 @@ class ConfigGenerator {
     return config;
   }
 
+  /// Displays information about the Loki workspace.
   void showAppInfo(){
     stdout.write('${chalk.yellowBright('Loki Workspace Info 🎉🎉 :\n')}'
         ' Name: ${chalk.cyan(config.name)}\n'
@@ -166,6 +170,7 @@ class ConfigGenerator {
         '');
   }
 
+  /// Generates a list of LokiScriptConfig objects based on the provided YAML data.
   List<LokiScriptConfig> _generateScriptsConfig(){
     _rootRules.scripts.run(yaml['scripts']);
     if(yaml['scripts'] == null) return [];

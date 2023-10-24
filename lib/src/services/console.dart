@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:chalkdart/chalk.dart';
 
+/// A class providing utility methods for interacting with the console.
 class Console {
   void moveUpAndClear(){
     moveUp();
@@ -29,4 +30,5 @@ class Console {
   String get allDoneText => 'Loki: ${chalk.green('All done, mate! 🍺🍺')}';
 }
 
+/// An instance of the [Console] class providing utility methods for interacting with the console.
 final console = Console();

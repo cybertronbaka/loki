@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 7.0.0-dev">
+  <meta name="description" content="loki API docs, for the Dart programming language.">
+  <title>loki - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li class="self-crumb">loki package</li>
+  </ol>
+  <div class="self-name">loki</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="loki">Loki</h1>
+<p>Loki is a command-line interface (CLI) tool designed for managing Dart and Flutter projects featuring multiple packages.</p>
+<p>The inspiration for Loki was drawn from <code>melos</code>. However, <code>melos</code> lacked support for running applications with distinct flavors and encountered issues with hot reloading/restarting due to detached stdin. Hence, this package was conceived.</p>
+<h2 id="installation">Installation</h2>
+<p>To install the package from the command line after cloning the repository:</p>
+<pre class="language-sh"><code class="language-sh">git clone https://github.com/cybertronbaka/loki.git
+</code></pre>
+<pre class="language-sh"><code class="language-sh">dart pub global activate --source path &lt;path to cloned directory&gt;
+</code></pre>
+<p>Alternatively, you can install the package directly using the following command:</p>
+<pre class="language-sh"><code class="language-sh">dart pub global activate loki
+</code></pre>
+<h2 id="setup">Setup</h2>
+<p>Loki is specifically engineered to function in tandem with a workspace. A workspace constitutes a directory encompassing all packages slated for simultaneous development. Its root directory should house a loki.yaml file.</p>
+<h3 id="configuring-the-workspace">Configuring the Workspace</h3>
+<p>Consider the following file structure for our example workspace:</p>
+<pre class="language-dart"><code>workspace/
+  loki.yaml
+  apps/
+    app1/
+      ...
+      pubspec.yaml
+    app2/
+      ...
+      pubspec.yaml
+  
+</code></pre>
+<p>Subsequently, create a loki.yaml file at the root of the repository. Within this file, specify the name and packages fields:</p>
+<pre class="language-yaml"><code class="language-yaml">name: &lt;project&gt;
+description: &lt;description&gt;
+packages:
+  - apps
+</code></pre>
+<h2 id="usage">Usage</h2>
+<h3 id="adding-scripts-to-the-workspace">Adding Scripts to the Workspace</h3>
+<p>Loki extends its functionality to include valuable features such as executing scripts across all packages. For example, to perform <code>flutter run</code> in an app, append a new script item to your loki.yaml:</p>
+<pre class="language-yaml"><code class="language-yaml">name: &lt;project&gt;
+description: &lt;description&gt;
+packages:
+  - apps
+scripts:
+  run:p1:
+    name: Run App1 # Optional
+    description: &lt;Description&gt; # Optional
+    exec: flutter run # Required
+    working_dir: apps/app1 # Optional (Default is . )
+    stdin: true # Optional
+</code></pre>
+<p>In this context,</p>
+<ul>
+<li><code>name</code> denotes the script's name and is optional.</li>
+<li><code>working_dir</code> determines where <code>exec</code> will be executed.</li>
+<li><code>stdin: true</code> facilitates the script's capacity to receive input directly from users via the terminal. This proves valuable for scripts like flutter run to enable hot reload and hot restart.</li>
+</ul>
+<h4 id="to-obtain-a-list-of-scripts-execute">To obtain a list of scripts, execute:</h4>
+<pre class="language-sh"><code class="language-sh">loki help run
+</code></pre>
+<h4 id="to-execute-the-runp1-script-employ-the-following-command">To execute the run:p1 script, employ the following command:</h4>
+<pre class="language-sh"><code class="language-sh">loki run run:p1
+</code></pre>
+<h4 id="to-run-an-app">To run an app</h4>
+<p>To run app app1 in flavor <code>dev</code> in <code>release</code></p>
+<pre class="language-sh"><code class="language-sh">loki app app1 --flavor dev -e release
+</code></pre>
+<p>or</p>
+<pre class="language-sh"><code class="language-sh">loki app app1 -f dev -e release
+</code></pre>
+<h4 id="to-get-assistance-with-running-an-app">To get assistance with running an app</h4>
+<pre class="language-sh"><code class="language-sh">loki app &lt;app_name&gt; -h
+</code></pre>
+<h2 id="commands">Commands</h2>
+<p>Full commands list and args can be viewed by running <code>loki help</code>.</p>
+<pre class="language-shell"><code class="language-shell">&gt; loki help
+
+ _     ____  _  __ _ 
+/ \   /  _ \/ |/ // \
+| |   | / \||   / | |
+| |_/\| \_/||   \ | |
+\____/\____/\_|\_\\_/
+                 v0.0.1
+
+A CLI tool for managing Dart &amp; Flutter projects with multiple packages.
+
+Made only because running flutter apps with melos was had an issue with stdin.
+
+Made with ❤️  by Dorji Gyeltshen ( @cybertronbaka )
+
+Usage: loki &lt;command&gt; [arguments]
+
+Global options:
+-h, --help    Print this usage information.
+
+Available commands:
+  app        Runs a flutter app in the workspace
+  clean      Runs `flutter clean` in all packages and apps
+  fetch      Install dependencies in packages and apps
+  list       List all local packages in apps.
+  run        Run a script by name defined in the workspace loki.yaml config file.
+  validate   Validate loki.yaml config file.
+  version    Print version information
+
+Run "loki help &lt;command&gt;" for more information about a command.
+</code></pre>
+<h2 id="contributing">Contributing</h2>
+<p>Contributions are always welcome!</p>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="loki">
+  <span class="name"><a href="loki/loki-library.html">loki</a></span> 
+
+</dt>
+<dd>Loki is a command-line interface (CLI) tool designed for managing Dart and Flutter projects featuring multiple packages.
+</dd>
+
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li class="self-crumb">loki package</li>
+</ol>
+
+
+    <h5 class="hidden-xs"><span class="package-name">loki</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="loki/loki-library.html">loki</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    loki
+      0.0.1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

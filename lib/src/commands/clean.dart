@@ -1,5 +1,6 @@
 part of commands;
 
+/// A command to clean all packages and apps using `flutter clean`.
 class CleanCommand extends BaseCommand{
   @override
   String get description => 'Runs `flutter clean` in all packages and apps';
@@ -22,6 +23,7 @@ class CleanCommand extends BaseCommand{
     console.printAllDone();
   }
 
+  /// Performs the clean operation for a specific project.
   Future<void> _clean(Project pro) async {
     stdout.writeln('Loki: ${chalk.yellowBright('Cleaning 🚦 for ${chalk.blueBright(pro.name)}${chalk.cyan(' @ ')}${chalk.blueBright(pro.dir.path)} (${chalk.cyan(pro.type.name)})')}');
     final runner = ProcessStartRunner(

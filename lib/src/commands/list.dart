@@ -1,5 +1,6 @@
 part of commands;
 
+/// A command to list all local packages in apps.
 class ListCommand extends BaseCommand{
   @override
   String get description => 'List all local packages in apps.';

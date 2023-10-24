@@ -5,6 +5,16 @@ Loki is a command-line interface (CLI) tool designed for managing Dart and Flutt
 
 The inspiration for Loki was drawn from `melos`. However, `melos` lacked support for running applications with distinct flavors and encountered issues with hot reloading/restarting due to detached stdin. Hence, this package was conceived.
 
+## Features
+
+- Running apps ☑️ 
+  - Running apps in (debug, release, profile) ☑️ 
+  - Running apps in flavors ☑️ 
+- Clean workspace ☑️ 
+- Fetching dependencies in workspace ☑️ 
+- List packages/apps in workspace ☑️ 
+- Run custom scripts with or without standard input ☑️ 
+- Validating config file ☑️ 
 
 ## Installation
 

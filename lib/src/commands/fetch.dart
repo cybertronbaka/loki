@@ -1,7 +1,7 @@
 part of commands;
 
+/// A command to install dependencies in packages and apps.
 class FetchCommand extends BaseCommand {
-
   @override
   String get description => 'Install dependencies in packages and apps';
 
@@ -20,6 +20,7 @@ class FetchCommand extends BaseCommand {
     console.printAllDone();
   }
 
+  /// Performs the fetch operation for a specific project.
   Future<void> _fetch(Project pro) async {
     stdout.writeln('Loki: ${chalk.yellowBright('Fetching ⌛ dependencies in ${chalk.cyan(pro.name)}${chalk.pink(' @ ')}${pro.dir.path} (${chalk.cyan(pro.type.name)})')}');
     final runner = ProcessStartRunner(

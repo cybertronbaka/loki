@@ -1,5 +1,8 @@
 part of commands;
 
+/// A subcommand to run a specific script.
+///
+/// Accepts [LokiScriptConfig]
 class RunSubcommand extends BaseCommand{
   LokiScriptConfig script;
   RunSubcommand(this.script);
@@ -40,6 +43,7 @@ class RunSubcommand extends BaseCommand{
     }
   }
 
+  /// Displays information about the script.
   void showScriptInfo(){
     stdout.writeln(chalk.yellowBright('Running Script (${chalk.cyan(script.name)})\n'
         'Working Directory: ${chalk.cyan(script.workingDir ?? '.')}\n'
@@ -47,7 +51,7 @@ class RunSubcommand extends BaseCommand{
   }
 }
 
-// TODO: Can be written better
+/// A command to run a script by name defined in the workspace loki.yaml config file.
 class RunCommand extends BaseCommand{
   RunCommand(){
     addOptions();
@@ -58,6 +62,7 @@ class RunCommand extends BaseCommand{
   @override
   String get name => 'run';
 
+  /// Adds options based on the configured scripts. Adds scripts from loki.yaml to subcommands.
   void addOptions(){
     loadConfig();
     for (var e in config.scripts) {

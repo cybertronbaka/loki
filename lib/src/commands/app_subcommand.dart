@@ -1,7 +1,10 @@
 part of commands;
 
+/// A subcommand to run a specific Flutter app.
 class AppSubcommand extends BaseCommand {
+  /// The Flutter project associated with this subcommand.
   Project app;
+
   AppSubcommand(this.app) {
     addOptions();
   }
@@ -12,21 +15,31 @@ class AppSubcommand extends BaseCommand {
   @override
   String get name => app.name;
 
+  /// Executes the subcommand, running the associated app.
   @override
   FutureOr<void> run() async {
     cache.configGenerator.fetch.showAppInfo();
     cache.projectFilter.fetch.printProjects();
     cache.devicesFilter.fetch.printDevices();
+
+    // Get device and flavor options
     String device = argResults!['device'];
     String? flavor = argResults!['flavor'];
+
+    // Prepare arguments for running the app
     var args = ['run', '-d', device, '--${argResults!['environment']}'];
     if(flavor != null){
       args += ['--flavor', flavor, '-t', 'lib/main_$flavor.dart'];
     }
+
+    // Print launch message
     stdout.writeln(chalk.green('Launching app ${chalk.cyan(app.name)}${flavor != null ? ' with flavor ${chalk.cyan(flavor)}' : ''} 🚀 '));
+
+    // Add verbose flag if specified
     if(argResults!['verbose'] as bool){
       args.add('-v');
     }
+    // Start the Flutter process
     await Process.start(
       'flutter', args,
       mode: ProcessStartMode.inheritStdio,
@@ -35,6 +48,7 @@ class AppSubcommand extends BaseCommand {
     );
   }
 
+  /// Adds options to the subcommand.
   void addOptions(){
     final devices = cache.devicesFilter.fetch.devices;
     if(devices.isNotEmpty){
@@ -42,6 +56,7 @@ class AppSubcommand extends BaseCommand {
       for (var d in devices) {
         allowedHelp[d.id] = 'id: ${d.id}, name: ${d.name}, platform: ${d.targetPlatform}';
       }
+      // Add an option for choosing a device
       argParser.addOption(
         'device',
         abbr: 'd',
@@ -51,11 +66,13 @@ class AppSubcommand extends BaseCommand {
         allowedHelp: allowedHelp
       );
     }
+    // Add an option for specifying a flavor
     argParser.addOption(
       'flavor',
       abbr: 'f',
       help: 'Run app into a flavor (optional)',
     );
+    // Add an option for choosing the environment (debug, profile, or release)
     argParser.addOption(
       'environment',
       abbr: 'e',
@@ -68,6 +85,7 @@ class AppSubcommand extends BaseCommand {
         'release': ' Build a release version of your app.'
       }
     );
+    // Add a flag for verbose logging
     argParser.addFlag(
       'verbose',
       abbr: 'v',

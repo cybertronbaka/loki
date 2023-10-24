@@ -5,12 +5,19 @@ import 'package:chalkdart/chalk_x11.dart';
 import 'package:loki/src/models/models.dart';
 import 'package:yaml/yaml.dart';
 
+/// A class responsible for filtering and managing Flutter projects within a given directory.
 class ProjectFilter {
+  /// List of Flutter apps discovered in the workspace.
   final List<Project> apps = [];
+  /// List of Flutter packages discovered in the workspace.
   final List<Project> packages = [];
 
+  /// Gets all projects (both apps and packages).
   List<Project> get all => packages + apps;
 
+  /// Runs the project filtering process based on the provided [config].
+  ///
+  /// Returns the instance of [ProjectFilter] after filtering.
   ProjectFilter run(LokiConfig config){
     final pwd = Directory.current;
     if(_isProject(pwd)){
@@ -34,6 +41,7 @@ class ProjectFilter {
     return this;
   }
 
+  /// Prints information about the discovered projects to the console.
   void printProjects(){
     if(packages.isNotEmpty){
       stdout.writeln(chalk.yellowBright('Packages Found 📦 (${packages.length}):'));
@@ -52,6 +60,7 @@ class ProjectFilter {
     }
   }
 
+  /// Checks if the directory at [dir] contains a Flutter app.
   bool _isApp(Directory dir, Map yaml) {
     bool isIt = File('${dir.path}/pubspec.yaml').existsSync();
     if(!isIt) return false;
@@ -59,10 +68,12 @@ class ProjectFilter {
     return isIt && yaml['dependencies']?['flutter'] != null;
   }
 
+  /// Checks if the directory at [dir] contains a valid project.
   bool _isProject(dir){
     return File('${dir.path}/pubspec.yaml').existsSync();
   }
 
+  /// Finds Flutter projects within a given [dir] and returns a list of them.
   List<Project> _findProjects(Directory dir) {
     List<Project> flutterProjects = [];
 
@@ -85,6 +96,7 @@ class ProjectFilter {
     return flutterProjects;
   }
 
+  /// Adds a [Project] to the cache based on the provided [dir] and [yaml].
   Project? _addToCache(Directory dir, Map yaml){
     if(apps.any((e) => e.dir.absolute.path == dir.absolute.path) || packages.any((e) => e.dir.absolute.path == dir.absolute.path)) return null;
 
@@ -98,6 +110,7 @@ class ProjectFilter {
     return p;
   }
 
+  /// Reads the content of pubspec.yaml file in a given [dir] and returns it as a Map.
   Map _readPubspecYaml(Directory dir){
     File file = File('${dir.path}/pubspec.yaml');
     String content = file.readAsStringSync();
@@ -105,6 +118,7 @@ class ProjectFilter {
     return pubspecYaml;
   }
 
+  /// Retrieves the name of a project based on its [yaml].
   String _getProjectName(Map yaml) {
     return yaml['name'];
   }

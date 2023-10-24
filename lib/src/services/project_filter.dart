@@ -105,8 +105,9 @@ class ProjectFilter {
   /// Adds a [Project] to the cache based on the provided [dir] and [yaml].
   Project? _addToCache(Directory dir, Map yaml) {
     if (apps.any((e) => e.dir.absolute.path == dir.absolute.path) ||
-        packages.any((e) => e.dir.absolute.path == dir.absolute.path))
+        packages.any((e) => e.dir.absolute.path == dir.absolute.path)) {
       return null;
+    }
 
     Project p = Project(
         name: _getProjectName(yaml),

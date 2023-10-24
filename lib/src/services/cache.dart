@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:chalkdart/chalk.dart';
-import 'package:loki/src/models/models.dart';
 import 'package:loki/src/services/config_generator.dart';
 import 'package:loki/src/services/devices_filter.dart';
 import 'package:loki/src/services/project_filter.dart';

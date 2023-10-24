@@ -1,4 +1,6 @@
 ## 0.0.2
+- chore: update CHANGELOG.md
+- chore: After dart analyze and format
 - chore: update changelog.md
 - chore: update for release to pub.dev
 

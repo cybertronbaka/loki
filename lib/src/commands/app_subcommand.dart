@@ -28,43 +28,41 @@ class AppSubcommand extends BaseCommand {
 
     // Prepare arguments for running the app
     var args = ['run', '-d', device, '--${argResults!['environment']}'];
-    if(flavor != null){
+    if (flavor != null) {
       args += ['--flavor', flavor, '-t', 'lib/main_$flavor.dart'];
     }
 
     // Print launch message
-    stdout.writeln(chalk.green('Launching app ${chalk.cyan(app.name)}${flavor != null ? ' with flavor ${chalk.cyan(flavor)}' : ''} 🚀 '));
+    stdout.writeln(chalk.green(
+        'Launching app ${chalk.cyan(app.name)}${flavor != null ? ' with flavor ${chalk.cyan(flavor)}' : ''} 🚀 '));
 
     // Add verbose flag if specified
-    if(argResults!['verbose'] as bool){
+    if (argResults!['verbose'] as bool) {
       args.add('-v');
     }
     // Start the Flutter process
-    await Process.start(
-      'flutter', args,
-      mode: ProcessStartMode.inheritStdio,
-      runInShell: Platform.isWindows,
-      workingDirectory: app.dir.path
-    );
+    await Process.start('flutter', args,
+        mode: ProcessStartMode.inheritStdio,
+        runInShell: Platform.isWindows,
+        workingDirectory: app.dir.path);
   }
 
   /// Adds options to the subcommand.
-  void addOptions(){
+  void addOptions() {
     final devices = cache.devicesFilter.fetch.devices;
-    if(devices.isNotEmpty){
+    if (devices.isNotEmpty) {
       Map<String, String> allowedHelp = {};
       for (var d in devices) {
-        allowedHelp[d.id] = 'id: ${d.id}, name: ${d.name}, platform: ${d.targetPlatform}';
+        allowedHelp[d.id] =
+            'id: ${d.id}, name: ${d.name}, platform: ${d.targetPlatform}';
       }
       // Add an option for choosing a device
-      argParser.addOption(
-        'device',
-        abbr: 'd',
-        defaultsTo: devices.first.id,
-        help: 'Choose a device to run. Defaults to ${devices.first.id}',
-        allowed: devices.map((e) => e.id),
-        allowedHelp: allowedHelp
-      );
+      argParser.addOption('device',
+          abbr: 'd',
+          defaultsTo: devices.first.id,
+          help: 'Choose a device to run. Defaults to ${devices.first.id}',
+          allowed: devices.map((e) => e.id),
+          allowedHelp: allowedHelp);
     }
     // Add an option for specifying a flavor
     argParser.addOption(
@@ -73,25 +71,27 @@ class AppSubcommand extends BaseCommand {
       help: 'Run app into a flavor (optional)',
     );
     // Add an option for choosing the environment (debug, profile, or release)
-    argParser.addOption(
-      'environment',
-      abbr: 'e',
-      defaultsTo: 'debug',
-      help: 'Run in debug, profile or release. Defaults to debug.',
-      allowed: ['debug', 'release', 'profile'],
-      allowedHelp: {
-        'debug': 'Build a debug version of your app (default mode).',
-        'profile': 'Build a version of your app specialized for performance profiling.',
-        'release': ' Build a release version of your app.'
-      }
-    );
+    argParser.addOption('environment',
+        abbr: 'e',
+        defaultsTo: 'debug',
+        help: 'Run in debug, profile or release. Defaults to debug.',
+        allowed: [
+          'debug',
+          'release',
+          'profile'
+        ],
+        allowedHelp: {
+          'debug': 'Build a debug version of your app (default mode).',
+          'profile':
+              'Build a version of your app specialized for performance profiling.',
+          'release': ' Build a release version of your app.'
+        });
     // Add a flag for verbose logging
-    argParser.addFlag(
-      'verbose',
-      abbr: 'v',
-      negatable: false,
-      defaultsTo: false,
-      help: 'Noisy logging, including all shell commands executed (optional)'
-    );
+    argParser.addFlag('verbose',
+        abbr: 'v',
+        negatable: false,
+        defaultsTo: false,
+        help:
+            'Noisy logging, including all shell commands executed (optional)');
   }
 }

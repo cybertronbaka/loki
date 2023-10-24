@@ -7,7 +7,7 @@ part of commands;
 /// loki app
 /// ```
 class AppCommand extends BaseCommand {
-  AppCommand(){
+  AppCommand() {
     addOptions();
   }
 

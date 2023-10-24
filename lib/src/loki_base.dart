@@ -12,8 +12,10 @@ import 'package:yaml/yaml.dart';
 
 /// The name of the executable.
 const _executableName = 'loki';
+
 /// The description of the CLI tool.
-final _description = 'A CLI tool for managing Dart & Flutter projects with multiple packages.\n\n'
+final _description =
+    'A CLI tool for managing Dart & Flutter projects with multiple packages.\n\n'
     'Made only because running flutter apps with melos was had an issue with stdin.\n\n'
     '${console.attributionText}';
 
@@ -43,8 +45,7 @@ class LokiBase {
         ..addCommand(RunCommand())
         ..addCommand(ValidateCommand())
         ..addCommand(VersionCommand())
-        ..addCommand(AppCommand())
-      ;
+        ..addCommand(AppCommand());
 
       await runner.run(arguments);
     } on PathNotFoundException catch (e, _) {
@@ -54,27 +55,28 @@ class LokiBase {
       stdout.writeln(e.toString());
       exit(1);
     } on YamlException catch (e) {
-      stdout.writeln(LokiError('Could not parse Yaml.${chalk.normal(
-          '\nPlease check the file and try again')}').toString());
+      stdout.writeln(LokiError(
+              'Could not parse Yaml.${chalk.normal('\nPlease check the file and try again')}')
+          .toString());
       exit(1);
-    } on ArgParserException catch(e){
+    } on ArgParserException catch (e) {
       stdout.writeln(LokiError(e.message).toString());
       exit(1);
-    } on UsageException catch(e){
+    } on UsageException catch (e) {
       stdout.writeln(e.toString());
       exit(1);
     }
   }
 
   /// Draws the Loki logo to the console.
-  void _drawLogo(){
+  void _drawLogo() {
     stdout.write(chalk.cyan(''
-      ' _     ____  _  __ _ \n'
-      '/ \\   /  _ \\/ |/ // \\\n'
-      '| |   | / \\||   / | |\n'
-      '| |_/\\| \\_/||   \\ | |\n'
-      '\\____/\\____/\\_|\\_\\\\_/\n'
-      '                 v$version\n\n'
-    ''));
+        ' _     ____  _  __ _ \n'
+        '/ \\   /  _ \\/ |/ // \\\n'
+        '| |   | / \\||   / | |\n'
+        '| |_/\\| \\_/||   \\ | |\n'
+        '\\____/\\____/\\_|\\_\\\\_/\n'
+        '                 v$version\n\n'
+        ''));
   }
 }

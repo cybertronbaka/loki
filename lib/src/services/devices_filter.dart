@@ -20,7 +20,10 @@ class DevicesFilter {
       final result = Process.runSync('flutter', ['devices', '--machine'],
           workingDirectory: Directory('.').path);
       List json = jsonDecode(result.stdout);
-      devices = json.map((e) => FlutterDevice.fromJson(e)).where((e) => e.isSupported).toList();
+      devices = json
+          .map((e) => FlutterDevice.fromJson(e))
+          .where((e) => e.isSupported)
+          .toList();
       return devices;
     } catch (e) {
       throw LokiError('Something went wrong when getting devices.');
@@ -28,10 +31,12 @@ class DevicesFilter {
   }
 
   /// Prints information about the available Flutter devices to the console.
-  void printDevices(){
-    stdout.writeln(chalk.yellowBright('Devices available 💻 (${devices.length}):'));
+  void printDevices() {
+    stdout.writeln(
+        chalk.yellowBright('Devices available 💻 (${devices.length}):'));
     for (var d in devices) {
-      stdout.writeln('    - { id: ${chalk.cyan(d.id)}, name: ${d.name}, platform: ${d.targetPlatform} }');
+      stdout.writeln(
+          '    - { id: ${chalk.cyan(d.id)}, name: ${d.name}, platform: ${d.targetPlatform} }');
     }
     stdout.writeln();
   }

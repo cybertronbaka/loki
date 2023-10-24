@@ -11,7 +11,7 @@ class RunSubcommand extends BaseCommand {
   String get name => script.command;
 
   @override
-  String get description => script.description ?? 'Runs ${script.description}';
+  String get description => script.description ?? 'Runs ${script.exec}';
 
   @override
   FutureOr<void>? run() async {

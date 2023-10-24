@@ -8,7 +8,6 @@ import 'package:chalkdart/chalk.dart';
 import 'package:chalkdart/chalk_x11.dart';
 import 'package:loki/src/models/models.dart';
 import 'package:loki/src/services/cache.dart';
-import 'package:loki/src/services/config_generator.dart';
 import 'package:loki/src/services/console.dart';
 import 'package:loki/src/services/process_start_runner.dart';
 import 'package:loki/src/version.dart';

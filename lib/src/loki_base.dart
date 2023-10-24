@@ -54,7 +54,7 @@ class LokiBase {
     } on LokiError catch (e, _) {
       stdout.writeln(e.toString());
       exit(1);
-    } on YamlException catch (e) {
+    } on YamlException catch (_) {
       stdout.writeln(LokiError(
               'Could not parse Yaml.${chalk.normal('\nPlease check the file and try again')}')
           .toString());

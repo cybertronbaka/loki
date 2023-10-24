@@ -1,11 +1,4 @@
-import 'dart:io';
-
-import 'package:chalkdart/chalk.dart';
-import 'package:loki/src/errors/errors.dart';
-import 'package:loki/src/models/models.dart';
-import 'package:loki/src/services/cache.dart';
-import 'package:loki/src/services/validator.dart';
-import 'package:yaml/yaml.dart';
+part of services;
 
 class _RootConfigValidationRules {
   Validator name;
@@ -144,7 +137,7 @@ class ConfigParser {
   void showAppInfo() {
     if (!cache.firstTime.fetch) return;
 
-    stdout.write('${chalk.yellowBright('Loki Workspace Info 🎉🎉 :\n')}'
+    console.write('${chalk.yellowBright('Loki Workspace Info 🎉🎉 :\n')}'
         ' Name: ${chalk.cyan(config.name)}\n'
         ' Description: ${chalk.cyan(config.description ?? '-')}\n\n'
         '');

@@ -1,7 +1,4 @@
-import 'dart:io';
-
-import '../errors/errors.dart';
-import 'console.dart';
+part of services;
 
 /// A utility class for running processes and handling their output. It should only be used with Process.start and without inheritStdio
 class ProcessStartRunner {
@@ -32,13 +29,13 @@ class ProcessStartRunner {
     int stdOutLines = 0;
     int stdErrLines = 0;
     final p = await runner();
-    await p.stdout.listen((event) {
+    p.stdout.listen((event) {
       var str = event.map((e) {
         final ch = String.fromCharCode(e);
         if (ch == '\n') stdOutLines++;
         return ch;
       }).join('');
-      stdout.write(str);
+      console.write(str);
     }).asFuture();
     StringBuffer stdErr = StringBuffer();
     await p.stderr.listen((event) async {

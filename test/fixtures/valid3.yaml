@@ -1,0 +1,5 @@
+name: test
+description: This is for testing purposes
+packages:
+  - test/fixtures/.tmp/app1
+  - test/fixtures/.tmp

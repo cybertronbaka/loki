@@ -33,7 +33,7 @@ class AppSubcommand extends BaseCommand {
     }
 
     // Print launch message
-    stdout.writeln(chalk.green(
+    console.writeln(chalk.green(
         'Launching app ${chalk.cyan(app.name)}${flavor != null ? ' with flavor ${chalk.cyan(flavor)}' : ''} 🚀 '));
 
     // Add verbose flag if specified

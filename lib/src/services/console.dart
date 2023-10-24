@@ -1,28 +1,37 @@
-import 'dart:io';
-
-import 'package:chalkdart/chalk.dart';
+part of services;
 
 /// A class providing utility methods for interacting with the console.
 class Console {
+  StringSink sink;
+  Console(this.sink);
+
+  void write(Object? object) {
+    sink.write(object);
+  }
+
+  void writeln([Object? object = ""]) {
+    sink.writeln(object);
+  }
+
   void moveUpAndClear() {
     moveUp();
     clearLine();
   }
 
   void moveUp() {
-    stdout.write('\u001B[1A');
+    sink.write('\u001B[1A');
   }
 
   void clearLine() {
-    stdout.write('\u001B[2K');
+    sink.write('\u001B[2K');
   }
 
   void printAllDone() {
-    stdout.writeln(allDoneText);
+    sink.writeln(allDoneText);
   }
 
   void printAttribution() {
-    stdout.writeln(attributionText);
+    sink.writeln(attributionText);
   }
 
   String get attributionText =>
@@ -32,4 +41,4 @@ class Console {
 }
 
 /// An instance of the [Console] class providing utility methods for interacting with the console.
-final console = Console();
+var console = Console(stdout);

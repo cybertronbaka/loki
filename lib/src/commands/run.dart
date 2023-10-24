@@ -23,7 +23,7 @@ class RunSubcommand extends BaseCommand {
   @override
   FutureOr<void>? run() async {
     showScriptInfo();
-    stdout.writeln(
+    console.writeln(
         'Loki: ${chalk.green('Launching 🚀 script ${chalk.cyan(script.name ?? script.exec)} @ ${chalk.cyan(script.workingDir ?? '.')}')}\n');
 
     final execs = script.exec.split('&&').map((e) => e.trim());
@@ -61,10 +61,8 @@ class RunSubcommand extends BaseCommand {
         runner: () => Process.start(_command, _args,
             runInShell: true, workingDirectory: _currentDir.path),
         onError: () {
-          stdout.writeln(
+          console.writeln(
               'Loki: ${chalk.green('Failed ❌  while running exec ${chalk.cyan(_exec)} @ ${chalk.cyan(script.workingDir ?? '.')}')}');
-          throw LokiError(
-              'Failed ❌ running ${chalk.cyan(script.name ?? script.exec)}');
         });
     await runner.run();
   }
@@ -107,7 +105,7 @@ class RunSubcommand extends BaseCommand {
 
   /// Displays information about the script.
   void showScriptInfo() {
-    stdout.writeln(chalk.yellowBright(
+    console.writeln(chalk.yellowBright(
         'Running Script (${chalk.cyan(script.name ?? script.exec)})\n'
         'Working Directory: ${chalk.cyan(script.workingDir ?? '.')}\n'
         'Description: ${chalk.cyan(script.description ?? '-')}\n'));

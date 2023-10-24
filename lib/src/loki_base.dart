@@ -6,6 +6,7 @@ import 'package:args/command_runner.dart';
 import 'package:chalkdart/chalk.dart';
 import 'package:loki/src/commands/commands.dart';
 import 'package:loki/src/errors/errors.dart';
+import 'package:loki/src/services/cache.dart';
 import 'package:loki/src/services/console.dart';
 import 'package:loki/src/version.dart';
 import 'package:yaml/yaml.dart';
@@ -36,6 +37,7 @@ class LokiBase {
   /// Exits with code 1 on [UsageException] if there is an issue with command usage.
   Future<void> run(List<String> arguments) async {
     _drawLogo();
+    cache.firstTime = false;
 
     try {
       final runner = CommandRunner<void>(_executableName, _description)
@@ -70,6 +72,12 @@ class LokiBase {
 
   /// Draws the Loki logo to the console.
   void _drawLogo() {
+    if (!cache.firstTime) {
+      stdout.writeln(
+          '\nLoki: ${chalk.yellowBright('Running another instance of loki,,,')}\n');
+      return;
+    }
+
     stdout.write(chalk.cyan(''
         ' _     ____  _  __ _ \n'
         '/ \\   /  _ \\/ |/ // \\\n'

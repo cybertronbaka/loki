@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chalkdart/chalk.dart';
 import 'package:chalkdart/chalk_x11.dart';
 import 'package:loki/src/models/models.dart';
+import 'package:loki/src/services/cache.dart';
 import 'package:yaml/yaml.dart';
 
 /// A class responsible for filtering and managing Flutter projects within a given directory.
@@ -44,6 +45,8 @@ class ProjectFilter {
 
   /// Prints information about the discovered projects to the console.
   void printProjects() {
+    if (!cache.firstTime) return;
+
     if (packages.isNotEmpty) {
       stdout.writeln(
           chalk.yellowBright('Packages Found 📦 (${packages.length}):'));

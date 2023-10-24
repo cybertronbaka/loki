@@ -6,6 +6,8 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:chalkdart/chalk.dart';
 import 'package:chalkdart/chalk_x11.dart';
+import 'package:loki/loki.dart';
+import 'package:loki/src/errors/errors.dart';
 import 'package:loki/src/models/models.dart';
 import 'package:loki/src/services/cache.dart';
 import 'package:loki/src/services/console.dart';

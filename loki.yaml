@@ -6,11 +6,14 @@ scripts:
   pub:
     name: pub
     description: Description
-    exec: flutter pub get
+    exec: dart pub get
     working_dir: ../loki_test/
+  activate:
+    name: activate loki
+    exec: dart pub global activate --source path . --overwrite
+    working_dir: .
   test1:
     name: Test1
     description: Running Test 1
-    exec: flutter run -d linux
+    exec: lkr activate && loki run pub && cd ../loki_test/packages/test1 && flutter run -d linux
     stdin: true
-    working_dir: ../loki_test/packages/test1

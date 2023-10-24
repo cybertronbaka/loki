@@ -109,20 +109,20 @@ _ScriptConfigValidationRules _scriptsConfigRules = _ScriptConfigValidationRules(
     workingDir: Validator(messagePrefix: ([command]) => chalk.yellowBright('scripts:$command:working_dir'), rules: [_vIsNullOrString]));
 
 /// Class responsible for generating Loki configurations from YAML data.
-class ConfigGenerator {
+class ConfigParser {
   Map yaml;
-  ConfigGenerator(this.yaml);
+  ConfigParser(this.yaml);
   late LokiConfig config;
 
-  /// Factory method to create a [ConfigGenerator] from a YAML file path.
+  /// Factory method to create a [ConfigParser] from a YAML file path.
   /// [path] The file path of the YAML file.
-  factory ConfigGenerator.fromYaml(String path) {
+  factory ConfigParser.fromYaml(String path) {
     File file = File(path);
     String yamlString = file.readAsStringSync();
     Map? yaml = loadYaml(yamlString);
     if (yaml == null) throw EmptyYamlFileError();
 
-    return ConfigGenerator(yaml);
+    return ConfigParser(yaml);
   }
 
   /// Generates a LokiConfig based on the provided YAML data.

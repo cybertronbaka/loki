@@ -15,6 +15,6 @@ abstract class BaseCommand extends Command<void> {
 
   /// Loads the Loki configuration from the cache.
   void loadConfig() {
-    config = cache.configGenerator.fetch.config;
+    config = cache.configParser.fetch.config;
   }
 }

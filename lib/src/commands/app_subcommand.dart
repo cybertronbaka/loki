@@ -18,7 +18,7 @@ class AppSubcommand extends BaseCommand {
   /// Executes the subcommand, running the associated app.
   @override
   FutureOr<void> run() async {
-    cache.configGenerator.fetch.showAppInfo();
+    cache.configParser.fetch.showAppInfo();
     cache.projectFilter.fetch.printProjects();
     cache.devicesFilter.fetch.printDevices();
 

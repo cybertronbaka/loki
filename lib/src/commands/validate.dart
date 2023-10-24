@@ -11,7 +11,7 @@ class ValidateCommand extends BaseCommand {
   @override
   FutureOr<void> run() async {
     loadConfig();
-    cache.configGenerator.fetch.showAppInfo();
+    cache.configParser.fetch.showAppInfo();
     console.printAllDone();
   }
 }

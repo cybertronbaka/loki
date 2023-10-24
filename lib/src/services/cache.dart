@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:loki/src/services/config_generator.dart';
+import 'package:loki/src/services/config_parser.dart';
 import 'package:loki/src/services/devices_filter.dart';
 import 'package:loki/src/services/project_filter.dart';
 
@@ -24,13 +24,13 @@ class CacheObject<T> {
 
 /// A cache manager for Loki related objects.
 class LokiCache {
-  /// Cache instance of [ConfigGenerator]
+  /// Cache instance of [ConfigParser]
   ///
   /// Usage:
   /// ```dart
-  /// ConfigGenerator configGenerator = cache.configGenerator.fetch
+  /// ConfigParser configParser = cache.configParser.fetch
   /// ```
-  late CacheObject<ConfigGenerator> configGenerator;
+  late CacheObject<ConfigParser> configParser;
 
   /// Cache instance of [ProjectFilter]
   ///
@@ -50,12 +50,12 @@ class LokiCache {
 
   /// Constructs a [LokiCache] and initializes cache objects.
   LokiCache() {
-    configGenerator = CacheObject<ConfigGenerator>(load: () {
+    configParser = CacheObject<ConfigParser>(load: () {
       String path = '${Directory.current.absolute.path}/loki.yaml';
-      return ConfigGenerator.fromYaml(path)..generate();
+      return ConfigParser.fromYaml(path)..generate();
     });
     projectFilter = CacheObject<ProjectFilter>(load: () {
-      return ProjectFilter().run(configGenerator.fetch.config);
+      return ProjectFilter().run(configParser.fetch.config);
     });
     devicesFilter = CacheObject<DevicesFilter>(load: () {
       return DevicesFilter()..run();

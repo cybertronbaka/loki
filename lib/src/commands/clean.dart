@@ -14,7 +14,7 @@ class CleanCommand extends BaseCommand {
   @override
   FutureOr<void> run() async {
     loadConfig();
-    cache.configGenerator.fetch.showAppInfo();
+    cache.configParser.fetch.showAppInfo();
     var projects = cache.projectFilter.fetch.all;
     cache.projectFilter.fetch.printProjects();
     for (var p in projects) {

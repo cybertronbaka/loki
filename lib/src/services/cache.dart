@@ -20,6 +20,10 @@ class CacheObject<T> {
     _loaded = true;
     return _data;
   }
+
+  void set(T val) {
+    _data = val;
+  }
 }
 
 /// A cache manager for Loki related objects.
@@ -47,10 +51,11 @@ class LokiCache {
   /// DevicesFilter devicesFilter = cache.devicesFilter.fetch
   /// ```
   late CacheObject<DevicesFilter> devicesFilter;
-  bool firstTime = true;
+  late CacheObject<bool> firstTime;
 
   /// Constructs a [LokiCache] and initializes cache objects.
   LokiCache() {
+    firstTime = CacheObject(load: () => true);
     configGenerator = CacheObject<ConfigGenerator>(load: () {
       String path = '${Directory.current.absolute.path}/loki.yaml';
       return ConfigGenerator.fromYaml(path)..generate();

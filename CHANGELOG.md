@@ -1,3 +1,7 @@
+## 0.1.1
+
+- fix: updated run command had issues with displaying info
+
 ## 0.1.0
 
 - chore: update README.md and loki.yaml

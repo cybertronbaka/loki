@@ -1,5 +1,21 @@
+## 0.1.2
+
+- chore: bump version to 0.1.2
+- fix: unhandled exception for run command
+- fix: unhandled exception when packages is [] and running loki app
+- fix: unhandled exception when given packages list has directories that doesn't exit
+
 ## 0.1.1
 
+- chore: write test for run command and run subcommand
+- chore: write tests for app and app subcommand. add process manager for handling test cases
+- chore: Write tests for clean,fetch,list,validate,version commands. modify tests for projects_filter. optimize project creator for testing. and handle te
+- chore: write tests for app and app subcommand. add process manager for handling test cases
+- chore: Write tests for clean,fetch,list,validate,version commands. modify tests for projects_filter. optimize project creator for testing. and handle te
+  sting concurrently by using flutter lock runner and different project dirs
+- chore: Write tests for cache
+- chore: Add few tests and make some code testable
+- chore: remove documentation from pubspec
 - fix: updated run command had issues with displaying info
 
 ## 0.1.0

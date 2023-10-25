@@ -18,6 +18,7 @@ class CacheObject<T> {
   }
 
   void set(T val) {
+    _loaded = true;
     _data = val;
   }
 }
@@ -48,13 +49,15 @@ class LokiCache {
   /// ```
   late CacheObject<DevicesFilter> devicesFilter;
   late CacheObject<bool> firstTime;
+  late CacheObject<String> lokiYamlPath;
 
   /// Constructs a [LokiCache] and initializes cache objects.
   LokiCache() {
     firstTime = CacheObject(load: () => true);
+    lokiYamlPath =
+        CacheObject(load: () => '${Directory.current.absolute.path}/loki.yaml');
     configParser = CacheObject<ConfigParser>(load: () {
-      String path = '${Directory.current.absolute.path}/loki.yaml';
-      return ConfigParser.fromYaml(path)..generate();
+      return ConfigParser.fromYaml(lokiYamlPath.fetch)..generate();
     });
     projectFilter = CacheObject<ProjectFilter>(load: () {
       return ProjectFilter().run(configParser.fetch.config);
@@ -66,4 +69,4 @@ class LokiCache {
 }
 
 /// Singleton instance of [LokiCache] for easy access.
-final cache = LokiCache();
+var cache = LokiCache();

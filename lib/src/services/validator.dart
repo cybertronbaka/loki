@@ -1,4 +1,4 @@
-import 'package:loki/src/errors/errors.dart';
+part of services;
 
 /// A class for defining validation rules and applying them to data.
 class Validator {

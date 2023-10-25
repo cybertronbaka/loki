@@ -11,7 +11,7 @@ class FetchCommand extends BaseCommand {
   @override
   FutureOr<void> run() async {
     loadConfig();
-    cache.configGenerator.fetch.showAppInfo();
+    cache.configParser.fetch.showAppInfo();
     var projects = cache.projectFilter.fetch.all;
     cache.projectFilter.fetch.printProjects();
     for (var p in projects) {
@@ -22,21 +22,28 @@ class FetchCommand extends BaseCommand {
 
   /// Performs the fetch operation for a specific project.
   Future<void> _fetch(Project pro) async {
-    stdout.writeln(
+    console.writeln(
         'Loki: ${chalk.yellowBright('Fetching ⌛ dependencies in ${chalk.cyan(pro.name)}${chalk.pink(' @ ')}${pro.dir.path} (${chalk.cyan(pro.type.name)})')}');
-    final runner = ProcessStartRunner(
-        runner: () => Process.start('flutter', ['pub', 'get'],
-            workingDirectory: pro.dir.path, runInShell: true),
-        clearStdOut: true,
-        onError: () {
-          stdout.writeln(
-              'Loki: ${chalk.red('Failed ❌ to fetch dependencies in ${chalk.cyan(pro.name)} @ ${pro.dir.path} (${chalk.cyan(pro.type.name)})')}');
-        },
-        onSuccess: () {
-          stdout.writeln(
-              'Loki: ${chalk.green('Fetched 🍕 dependencies in ${chalk.yellowBright(pro.name)}${chalk.pink(' @ ')}${pro.dir.path} (${chalk.yellowBright(pro.type.name)})')}');
-        });
-    await runner.run();
-    stdout.writeln();
+    final process = LokiProcess(
+      command: 'flutter',
+      args: ['pub', 'get'],
+      workingDir: pro.dir.path,
+      hasStdin: false,
+      clearStdOut: true,
+    );
+    await cache.processManager.fetch.run(
+      process,
+      onSuccess: () {
+        console.writeln(
+            'Loki: ${chalk.green('Fetched 🍕 dependencies in ${chalk.yellowBright(pro.name)}${chalk.pink(' @ ')}${pro.dir.path} (${chalk.yellowBright(pro.type.name)})')}');
+      },
+      // coverage:ignore-start
+      onError: () {
+        console.writeln(
+            'Loki: ${chalk.red('Failed ❌ to fetch dependencies in ${chalk.cyan(pro.name)} @ ${pro.dir.path} (${chalk.cyan(pro.type.name)})')}');
+      },
+      // coverage:ignore-end
+    );
+    console.writeln();
   }
 }

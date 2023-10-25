@@ -1,3 +1,4 @@
+// coverage:ignore-file
 import 'dart:async';
 import 'dart:io';
 
@@ -6,8 +7,7 @@ import 'package:args/command_runner.dart';
 import 'package:chalkdart/chalk.dart';
 import 'package:loki/src/commands/commands.dart';
 import 'package:loki/src/errors/errors.dart';
-import 'package:loki/src/services/cache.dart';
-import 'package:loki/src/services/console.dart';
+import 'package:loki/src/services/services.dart';
 import 'package:loki/src/version.dart';
 import 'package:yaml/yaml.dart';
 
@@ -56,21 +56,21 @@ class LokiBase {
 
       await runner.run(arguments);
     } on PathNotFoundException catch (e, _) {
-      stdout.writeln(LokiError('Could not find loki.yaml').toString());
+      console.writeln(LokiError('Could not find loki.yaml').toString());
       exit(1);
     } on LokiError catch (e, _) {
-      stdout.writeln(e.toString());
+      console.writeln(e.toString());
       exit(1);
     } on YamlException catch (_) {
-      stdout.writeln(LokiError(
+      console.writeln(LokiError(
               'Could not parse Yaml.${chalk.normal('\nPlease check the file and try again')}')
           .toString());
       exit(1);
     } on ArgParserException catch (e) {
-      stdout.writeln(LokiError(e.message).toString());
+      console.writeln(LokiError(e.message).toString());
       exit(1);
     } on UsageException catch (e) {
-      stdout.writeln(e.toString());
+      console.writeln(e.toString());
       exit(1);
     }
   }
@@ -78,12 +78,12 @@ class LokiBase {
   /// Draws the Loki logo to the console.
   void _drawLogo() {
     if (!cache.firstTime.fetch) {
-      stdout.writeln(
+      console.writeln(
           '\nLoki: ${chalk.yellowBright('Running another instance of loki,,,')}\n');
       return;
     }
 
-    stdout.write(chalk.cyan(''
+    console.write(chalk.cyan(''
         ' _     ____  _  __ _ \n'
         '/ \\   /  _ \\/ |/ // \\\n'
         '| |   | / \\||   / | |\n'

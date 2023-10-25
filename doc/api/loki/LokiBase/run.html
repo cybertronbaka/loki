@@ -103,20 +103,20 @@ Exits with code 1 on <a href="https://pub.dev/documentation/args/2.4.2/command_r
 
     await runner.run(arguments);
   } on PathNotFoundException catch (e, _) {
-    stdout.writeln(LokiError(&#39;Could not find loki.yaml&#39;).toString());
+    console.writeln(LokiError(&#39;Could not find loki.yaml&#39;).toString());
     exit(1);
   } on LokiError catch (e, _) {
-    stdout.writeln(e.toString());
+    console.writeln(e.toString());
     exit(1);
   } on YamlException catch (e) {
-    stdout.writeln(LokiError(&#39;Could not parse Yaml.${chalk.normal(
+    console.writeln(LokiError(&#39;Could not parse Yaml.${chalk.normal(
         &#39;\nPlease check the file and try again&#39;)}&#39;).toString());
     exit(1);
   } on ArgParserException catch(e){
-    stdout.writeln(LokiError(e.message).toString());
+    console.writeln(LokiError(e.message).toString());
     exit(1);
   } on UsageException catch(e){
-    stdout.writeln(e.toString());
+    console.writeln(e.toString());
     exit(1);
   }
 }</code></pre>

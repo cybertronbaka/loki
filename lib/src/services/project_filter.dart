@@ -1,10 +1,4 @@
-import 'dart:io';
-
-import 'package:chalkdart/chalk.dart';
-import 'package:chalkdart/chalk_x11.dart';
-import 'package:loki/src/models/models.dart';
-import 'package:loki/src/services/cache.dart';
-import 'package:yaml/yaml.dart';
+part of services;
 
 /// A class responsible for filtering and managing Flutter projects within a given directory.
 class ProjectFilter {
@@ -48,22 +42,22 @@ class ProjectFilter {
     if (!cache.firstTime.fetch) return;
 
     if (packages.isNotEmpty) {
-      stdout.writeln(
+      console.writeln(
           chalk.yellowBright('Packages Found 📦 (${packages.length}):'));
       for (var pack in packages) {
-        stdout.writeln(
+        console.writeln(
             '    - ${chalk.cyan(pack.name)}${chalk.pink(' @ ')}${pack.dir.path}');
       }
-      stdout.writeln();
+      console.writeln();
     }
 
     if (apps.isNotEmpty) {
-      stdout.writeln(chalk.yellowBright('Apps Found 💿 (${packages.length}):'));
+      console.writeln(chalk.yellowBright('Apps Found 💿 (${apps.length}):'));
       for (var app in apps) {
-        stdout.writeln(
+        console.writeln(
             '    - ${chalk.cyan(app.name)}${chalk.pink(' @ ')}${app.dir.path}');
       }
-      stdout.writeln();
+      console.writeln();
     }
   }
 
@@ -83,10 +77,6 @@ class ProjectFilter {
   /// Finds Flutter projects within a given [dir] and returns a list of them.
   List<Project> _findProjects(Directory dir) {
     List<Project> flutterProjects = [];
-
-    if (!dir.existsSync()) {
-      throw ArgumentError('Directory does not exist: ${dir.path}');
-    }
 
     dir
         .listSync(recursive: true, followLinks: false)

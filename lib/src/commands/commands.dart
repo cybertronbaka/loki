@@ -9,9 +9,7 @@ import 'package:chalkdart/chalk_x11.dart';
 import 'package:loki/loki.dart';
 import 'package:loki/src/errors/errors.dart';
 import 'package:loki/src/models/models.dart';
-import 'package:loki/src/services/cache.dart';
-import 'package:loki/src/services/console.dart';
-import 'package:loki/src/services/process_start_runner.dart';
+import 'package:loki/src/services/services.dart';
 import 'package:loki/src/version.dart';
 
 part 'app.dart';

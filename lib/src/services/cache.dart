@@ -1,8 +1,4 @@
-import 'dart:io';
-
-import 'package:loki/src/services/config_generator.dart';
-import 'package:loki/src/services/devices_filter.dart';
-import 'package:loki/src/services/project_filter.dart';
+part of services;
 
 /// A generic cache object that can store and lazily load data of type [T].
 class CacheObject<T> {
@@ -22,19 +18,20 @@ class CacheObject<T> {
   }
 
   void set(T val) {
+    _loaded = true;
     _data = val;
   }
 }
 
 /// A cache manager for Loki related objects.
 class LokiCache {
-  /// Cache instance of [ConfigGenerator]
+  /// Cache instance of [ConfigParser]
   ///
   /// Usage:
   /// ```dart
-  /// ConfigGenerator configGenerator = cache.configGenerator.fetch
+  /// ConfigParser configParser = cache.configParser.fetch
   /// ```
-  late CacheObject<ConfigGenerator> configGenerator;
+  late CacheObject<ConfigParser> configParser;
 
   /// Cache instance of [ProjectFilter]
   ///
@@ -52,22 +49,26 @@ class LokiCache {
   /// ```
   late CacheObject<DevicesFilter> devicesFilter;
   late CacheObject<bool> firstTime;
+  late CacheObject<String> lokiYamlPath;
+  late CacheObject<ProcessManager> processManager;
 
   /// Constructs a [LokiCache] and initializes cache objects.
   LokiCache() {
     firstTime = CacheObject(load: () => true);
-    configGenerator = CacheObject<ConfigGenerator>(load: () {
-      String path = '${Directory.current.absolute.path}/loki.yaml';
-      return ConfigGenerator.fromYaml(path)..generate();
+    lokiYamlPath =
+        CacheObject(load: () => '${Directory.current.absolute.path}/loki.yaml');
+    configParser = CacheObject<ConfigParser>(load: () {
+      return ConfigParser.fromYaml(lokiYamlPath.fetch)..generate();
     });
     projectFilter = CacheObject<ProjectFilter>(load: () {
-      return ProjectFilter().run(configGenerator.fetch.config);
+      return ProjectFilter().run(configParser.fetch.config);
     });
     devicesFilter = CacheObject<DevicesFilter>(load: () {
       return DevicesFilter()..run();
     });
+    processManager = CacheObject<ProcessManager>(load: () => ProcessManager());
   }
 }
 
 /// Singleton instance of [LokiCache] for easy access.
-final cache = LokiCache();
+var cache = LokiCache();

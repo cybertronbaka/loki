@@ -1,0 +1,5 @@
+name: test
+description: This is for testing purposes
+packages:
+  - packages
+scripts: 1

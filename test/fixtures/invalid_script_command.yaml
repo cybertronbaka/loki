@@ -1,0 +1,11 @@
+name: test
+description: This is for testing purposes
+packages:
+  - packages
+scripts:
+  1:
+    name: test 1 name
+    description: test1 description
+    working_dir: packages/package1
+    exec: dart pub get
+    stdin: true

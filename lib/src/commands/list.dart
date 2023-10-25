@@ -11,7 +11,7 @@ class ListCommand extends BaseCommand {
   @override
   FutureOr<void> run() async {
     loadConfig();
-    cache.configGenerator.fetch.showAppInfo();
+    cache.configParser.fetch.showAppInfo();
     cache.projectFilter.fetch.printProjects();
     console.printAllDone();
   }

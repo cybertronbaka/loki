@@ -1,19 +1,30 @@
 name: dev
 description: This is for development purposes
-packages:
-  - ../loki_test/packages
+#packages:
+#  - test/fixtures/.tmp
 scripts:
-  pub:
-    name: pub
-    description: Description
-    exec: dart pub get
-    working_dir: ../loki_test/
+  dev:init:
+    name: init dev workspace
+    exec: cd workspace && flutter create app1 && dart create -t package package1
   activate:
     name: activate loki
+    description: activate loki in this project
     exec: dart pub global activate --source path . --overwrite
-    working_dir: .
-  test1:
-    name: Test1
-    description: Running Test 1
-    exec: lkr activate && loki run pub && cd ../loki_test/packages/test1 && flutter run -d linux
-    stdin: true
+  test:
+    name: test
+    exec: dart run test --coverage=coverage
+  activate:coverage:
+    name: activate coverage
+    exec: dart pub global activate coverage
+  coverage:format:
+    name: format coverage
+    exec: dart pub global run coverage:format_coverage --packages=.dart_tool/package_config.json --report-on=lib --lcov -o coverage/lcov.info -i coverage -c
+  generate:test_report:
+    name: generate:test_report
+    exec: genhtml -o coverage/report coverage/lcov.info
+  test:report:
+    name: test:report
+    exec: lkr test && lkr activate:coverage && lkr coverage:format && lkr generate:test_report
+  test:report:open:
+    name: test:report:open
+    exec: lkr test:report && open coverage/report/index.html

@@ -18,7 +18,7 @@ class AppSubcommand extends BaseCommand {
   /// Executes the subcommand, running the associated app.
   @override
   FutureOr<void> run() async {
-    cache.configGenerator.fetch.showAppInfo();
+    cache.configParser.fetch.showAppInfo();
     cache.projectFilter.fetch.printProjects();
     cache.devicesFilter.fetch.printDevices();
 
@@ -33,7 +33,7 @@ class AppSubcommand extends BaseCommand {
     }
 
     // Print launch message
-    stdout.writeln(chalk.green(
+    console.writeln(chalk.green(
         'Launching app ${chalk.cyan(app.name)}${flavor != null ? ' with flavor ${chalk.cyan(flavor)}' : ''} 🚀 '));
 
     // Add verbose flag if specified
@@ -41,10 +41,11 @@ class AppSubcommand extends BaseCommand {
       args.add('-v');
     }
     // Start the Flutter process
-    await Process.start('flutter', args,
-        mode: ProcessStartMode.inheritStdio,
-        runInShell: Platform.isWindows,
-        workingDirectory: app.dir.path);
+    await cache.processManager.fetch.run(LokiProcess(
+        command: 'flutter',
+        args: args,
+        hasStdin: true,
+        workingDir: app.dir.path));
   }
 
   /// Adds options to the subcommand.

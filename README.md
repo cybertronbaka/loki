@@ -1,5 +1,6 @@
-
 # Loki
+
+[![Static Badge](https://img.shields.io/badge/managed_with-loki-blue)](https://pub.dev/packages/loki) [![License: MIT](https://img.shields.io/badge/license-MIT-purple.svg)](https://opensource.org/licenses/MIT)
 
 Loki is a command-line interface (CLI) tool designed for managing Dart and Flutter projects featuring multiple packages.
 
@@ -7,14 +8,14 @@ The inspiration for Loki was drawn from `melos`. However, `melos` lacked support
 
 ## Features
 
-- Running apps ☑️ 
-  - Running apps in (debug, release, profile) ☑️ 
-  - Running apps in flavors ☑️ 
-- Clean workspace ☑️ 
-- Fetching dependencies in workspace ☑️ 
-- List packages/apps in workspace ☑️ 
-- Run custom scripts with or without standard input ☑️ 
-- Validating config file ☑️ 
+- Running apps ☑️
+  - Running apps in (debug, release, profile) ☑️
+  - Running apps in flavors ☑️
+- Clean workspace ☑️
+- Fetching dependencies in workspace ☑️
+- List packages/apps in workspace ☑️
+- Run custom scripts with or without standard input ☑️
+- Validating config file ☑️
 
 ## Installation
 
@@ -159,6 +160,14 @@ Available commands:
 Run "loki help <command>" for more information about a command.
 ```
 
+## Readme badge
+Using loki? Add a README badge to show it off:
+
+[![Static Badge](https://img.shields.io/badge/managed_with-loki-blue)](https://pub.dev/packages/loki)
+
+```markdown
+[![Static Badge](https://img.shields.io/badge/managed_with-loki-blue)](https://pub.dev/packages/loki)
+```
 
 ## Contributing
 

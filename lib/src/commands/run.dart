@@ -113,6 +113,11 @@ class RunCommand extends BaseCommand {
   @override
   String get name => 'run';
 
+  @override
+  FutureOr<void>? run() {
+    console.writeln(usage);
+  }
+
   /// Adds options based on the configured scripts. Adds scripts from loki.yaml to subcommands.
   void addOptions() {
     loadConfig();

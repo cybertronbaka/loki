@@ -23,7 +23,7 @@ class ProjectFilter {
     for (var e in config.packages) {
       Directory dir = Directory(e);
       if (!dir.existsSync()) {
-        throw ArgumentError('Directory does not exist: ${dir.path}');
+        throw LokiError('Directory does not exist: ${dir.path}');
       } else if (_isProject(dir)) {
         final yaml = _readPubspecYaml(dir);
         _addToCache(dir, yaml);

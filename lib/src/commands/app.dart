@@ -17,6 +17,11 @@ class AppCommand extends BaseCommand {
   @override
   String get name => 'app';
 
+  @override
+  FutureOr<void>? run() {
+    console.writeln(usage);
+  }
+
   /// Adds subcommands to app command. Subcommands include apps found under packages
   void addOptions() {
     loadConfig();

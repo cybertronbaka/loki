@@ -1,3 +1,4 @@
+// coverage:ignore-file
 library errors;
 
 import 'package:chalkdart/chalk.dart';

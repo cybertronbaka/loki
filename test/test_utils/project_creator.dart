@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:loki/src/errors/errors.dart';
 import 'package:loki/src/models/models.dart';
 
 class ProjectCreator {
@@ -14,24 +15,48 @@ class ProjectCreator {
 
   void run() {
     DirectoryUtils.mkdir(path);
-    type == ProjectType.app ? _createApp() : _createPackage();
+    _createProject();
   }
 
-  void _createApp() {
-    _createProject('flutter create --platforms=web $name');
-  }
-
-  void _createPackage() {
-    _createProject('dart create -t package $name');
-  }
-
-  void _createProject(String command) {
-    final all = command.split(' ');
-    final result = Process.runSync(all.first, all.sublist(1, all.length),
-        workingDirectory: path);
-    if (result.exitCode != 0) {
-      throw Exception('Could not create ${type.name} $name');
+  void _createProject() {
+    final pDir = Directory('$path/$name');
+    if (!pDir.existsSync()) pDir.createSync(recursive: true);
+    final pubspec = File('$path/$name/pubspec.yaml');
+    if (!pubspec.existsSync()) pubspec.createSync(recursive: true);
+    final flutterDeps = type == ProjectType.app
+        ? 'dependencies:\n'
+            '  flutter:\n'
+            '    sdk: flutter\n'
+        : '';
+    final flutterDevDeps = type == ProjectType.app
+        ? '  flutter_test:\n'
+            '    sdk: flutter\n'
+        : '';
+    final contents = 'name: $name\n'
+        'description: description\n'
+        'version: 1.0.0\n'
+        'environment:\n'
+        '  sdk: ^3.1.3\n'
+        '$flutterDeps\n'
+        'dev_dependencies:\n'
+        '$flutterDevDeps'
+        '  lints: ^2.0.0\n'
+        '  test: ^1.21.0\n';
+    pubspec.writeAsStringSync(contents);
+    final copyProcess = Process.runSync(
+        'cp', ['-r', '.dart_tool', '${pDir.path}/.dart_tool'],
+        workingDirectory: Directory('.').path, runInShell: true);
+    if (copyProcess.exitCode != 0) {
+      throw LokiError('Failed to copy: ${copyProcess.stderr}');
     }
+    // final process = Process.runSync(
+    //   type == ProjectType.app ? 'flutter' : 'dart', ['pub', 'get'],
+    //   runInShell: true,
+    //   workingDirectory: '$path/$name'
+    // );
+    // if(process.exitCode != 0){
+    //   throw LokiError('Failed to pub get ${process.stderr}');
+    // }
   }
 
   void clean() {

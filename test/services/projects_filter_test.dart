@@ -2,31 +2,42 @@ import 'dart:io';
 
 import 'package:loki/src/models/models.dart';
 import 'package:loki/src/services/services.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
+import '../mocks/mocks.dart';
 import '../test_utils/project_creator.dart';
 
 void main() {
   group('ProjectFilter', () {
     test('run - Directory does not exist', () {
-      final path = Directory('test/fixtures/valid3.yaml').path;
-      final projectsPath = 'test/fixtures/.tmp';
+      final projectsPath = 'test/.tmp_project_filter0';
       DirectoryUtils.rmdir(projectsPath);
-      final config = ConfigParser.fromYaml(path).generate();
+      var configParser = MockConfigParser();
+      when(() => configParser.config).thenReturn(LokiConfig(
+          name: 'Project Filter Test',
+          packages: ['test/.tmp_project_filter0']));
+      cache.configParser = CacheObject(load: () => configParser);
       final filter = ProjectFilter();
-      expect(() => filter.run(config), throwsArgumentError);
+      expect(() => filter.run(configParser.config), throwsArgumentError);
     });
 
     test('run - nothing at dir', () {
-      final path = Directory('test/fixtures/valid3.yaml').path;
-      final projectsPath = 'test/fixtures/.tmp';
+      final projectsPath = 'test/.tmp_project_filter1';
       DirectoryUtils.mkdir('$projectsPath/app1');
-      final config = ConfigParser.fromYaml(path).generate();
+
+      var configParser = MockConfigParser();
+      when(() => configParser.config).thenReturn(LokiConfig(
+          name: 'Project Filter Test',
+          packages: ['test/.tmp_project_filter1']));
+      cache.configParser = CacheObject(load: () => configParser);
+
       final filter = ProjectFilter();
       try {
-        expect(() => filter.run(config), throwsException);
+        expect(() => filter.run(configParser.config), throwsException);
       } finally {
         DirectoryUtils.rmdir(projectsPath);
+        // DirectoryUtils.rmdir('$projectsPath/app1');
       }
     });
 
@@ -47,8 +58,15 @@ void main() {
     });
 
     test('run - filters and adds projects correctly', () {
-      final path = Directory('test/fixtures/valid3.yaml').path;
-      final projectsPath = 'test/fixtures/.tmp';
+      final projectsPath = 'test/.tmp_project_filter2';
+      DirectoryUtils.mkdir(projectsPath);
+
+      var configParser = MockConfigParser();
+      when(() => configParser.config).thenReturn(LokiConfig(
+          name: 'Project Filter Test',
+          packages: ['test/.tmp_project_filter2']));
+      cache.configParser = CacheObject(load: () => configParser);
+
       final appCreator = ProjectCreator(
           path: projectsPath, name: 'app1', type: ProjectType.app);
       final packageCreator = ProjectCreator(
@@ -56,16 +74,15 @@ void main() {
       try {
         appCreator.run();
         packageCreator.run();
-        final config = ConfigParser.fromYaml(path).generate();
         final filter = ProjectFilter();
-        final result = filter.run(config);
+        final result = filter.run(configParser.config);
         expect(result.apps, hasLength(1));
         expect(result.packages, hasLength(2)); // including this very project
         expect(result.all, hasLength(3));
       } finally {
         DirectoryUtils.rmdir(projectsPath);
-        appCreator.clean();
-        packageCreator.clean();
+        // appCreator.clean();
+        // packageCreator.clean();
       }
     });
   });

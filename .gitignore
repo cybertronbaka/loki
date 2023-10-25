@@ -10,3 +10,4 @@ coverage/
 # https://dart.dev/guides/libraries/private-files#pubspeclock.
 pubspec.lock
 **/.tmp/
+test/.tmp_*/

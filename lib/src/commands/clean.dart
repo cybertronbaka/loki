@@ -2,6 +2,9 @@ part of commands;
 
 /// A command to clean all packages and apps using `flutter clean`.
 class CleanCommand extends BaseCommand {
+  bool cleanOnRoot;
+  CleanCommand({this.cleanOnRoot = true});
+
   @override
   String get description => 'Runs `flutter clean` in all packages and apps';
 
@@ -18,6 +21,9 @@ class CleanCommand extends BaseCommand {
     var projects = cache.projectFilter.fetch.all;
     cache.projectFilter.fetch.printProjects();
     for (var p in projects) {
+      if (!cleanOnRoot && p.dir.path == '.') {
+        continue;
+      }
       await _clean(p);
     }
     console.printAllDone();
@@ -31,10 +37,12 @@ class CleanCommand extends BaseCommand {
         runner: () => Process.start('flutter', ['clean'],
             workingDirectory: pro.dir.path, runInShell: true),
         clearStdOut: true,
+        // coverage:ignore-start
         onError: () {
           console.writeln(
               'Loki: ${chalk.red('Failed ❌ to clean in ${chalk.cyan(pro.name)} @ ${pro.dir.path} (${chalk.cyan(pro.type.name)})')}');
         },
+        // coverage:ignore-end
         onSuccess: () {
           console.writeln(
               'Loki: ${chalk.green('Cleaned 🍕 in ${chalk.yellowBright(pro.name)}${chalk.pink(' @ ')}${pro.dir.path} (${chalk.yellowBright(pro.type.name)})')}');

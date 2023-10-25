@@ -28,10 +28,12 @@ class FetchCommand extends BaseCommand {
         runner: () => Process.start('flutter', ['pub', 'get'],
             workingDirectory: pro.dir.path, runInShell: true),
         clearStdOut: true,
+        // coverage:ignore-start
         onError: () {
           console.writeln(
               'Loki: ${chalk.red('Failed ❌ to fetch dependencies in ${chalk.cyan(pro.name)} @ ${pro.dir.path} (${chalk.cyan(pro.type.name)})')}');
         },
+        // coverage:ignore-end
         onSuccess: () {
           console.writeln(
               'Loki: ${chalk.green('Fetched 🍕 dependencies in ${chalk.yellowBright(pro.name)}${chalk.pink(' @ ')}${pro.dir.path} (${chalk.yellowBright(pro.type.name)})')}');

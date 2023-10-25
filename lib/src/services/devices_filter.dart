@@ -21,7 +21,9 @@ class DevicesFilter {
           .toList();
       return devices;
     } catch (e) {
+      // coverage:ignore-start
       throw LokiError('Something went wrong when getting devices.');
+      // coverage:ignore-end
     }
   }
 

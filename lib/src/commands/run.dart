@@ -60,10 +60,13 @@ class RunSubcommand extends BaseCommand {
     final runner = ProcessStartRunner(
         runner: () => Process.start(_command, _args,
             runInShell: true, workingDirectory: _currentDir.path),
+        // coverage:ignore-start
         onError: () {
           console.writeln(
               'Loki: ${chalk.green('Failed ❌  while running exec ${chalk.cyan(_exec)} @ ${chalk.cyan(script.workingDir ?? '.')}')}');
-        });
+        }
+        // coverage:ignore-end
+        );
     await runner.run();
   }
 

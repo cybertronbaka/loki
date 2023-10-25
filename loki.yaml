@@ -1,7 +1,7 @@
 name: dev
 description: This is for development purposes
-packages:
-  - test/fixtures/.tmp
+#packages:
+#  - test/fixtures/.tmp
 scripts:
   dev:init:
     name: init dev workspace
@@ -18,7 +18,7 @@ scripts:
     exec: dart pub global activate coverage
   coverage:format:
     name: format coverage
-    exec: dart pub global run coverage:format_coverage --packages=.dart_tool/package_config.json --report-on=lib --lcov -o coverage/lcov.info -i coverage
+    exec: dart pub global run coverage:format_coverage --packages=.dart_tool/package_config.json --report-on=lib --lcov -o coverage/lcov.info -i coverage -c
   generate:test_report:
     name: generate:test_report
     exec: genhtml -o coverage/report coverage/lcov.info

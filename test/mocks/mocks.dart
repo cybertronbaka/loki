@@ -6,3 +6,5 @@ class MockConfigParser extends Mock implements ConfigParser {}
 class MockProjectFilter extends Mock implements ProjectFilter {}
 
 class MockDevicesFilter extends Mock implements DevicesFilter {}
+
+class MockProcessManager extends Mock implements ProcessManager {}

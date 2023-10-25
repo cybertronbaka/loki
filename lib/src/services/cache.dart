@@ -50,6 +50,7 @@ class LokiCache {
   late CacheObject<DevicesFilter> devicesFilter;
   late CacheObject<bool> firstTime;
   late CacheObject<String> lokiYamlPath;
+  late CacheObject<ProcessManager> processManager;
 
   /// Constructs a [LokiCache] and initializes cache objects.
   LokiCache() {
@@ -65,6 +66,7 @@ class LokiCache {
     devicesFilter = CacheObject<DevicesFilter>(load: () {
       return DevicesFilter()..run();
     });
+    processManager = CacheObject<ProcessManager>(load: () => ProcessManager());
   }
 }
 

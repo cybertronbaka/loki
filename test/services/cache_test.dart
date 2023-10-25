@@ -60,6 +60,7 @@ void main() {
       expect(configParser, isA<ConfigParser>());
       expect(projectFilter, isA<ProjectFilter>());
       expect(devicesFilter, isA<DevicesFilter>());
+      expect(cache.processManager.fetch, isA<ProcessManager>());
       expect(firstTime, true);
     });
 
@@ -74,6 +75,7 @@ void main() {
       expect(configParser, isA<ConfigParser>());
       expect(projectFilter, isA<ProjectFilter>());
       expect(devicesFilter, isA<DevicesFilter>());
+      expect(cache.processManager.fetch, isA<ProcessManager>());
       expect(firstTime, true);
     });
 

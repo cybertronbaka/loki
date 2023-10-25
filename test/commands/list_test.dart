@@ -19,7 +19,7 @@ void main() {
 
       var configParser = MockConfigParser();
       when(() => configParser.config).thenReturn(
-          LokiConfig(name: 'list Test', packages: ['test/.tmp_fetch']));
+          LokiConfig(name: 'list Test', packages: ['test/.tmp_list']));
       cache.configParser = CacheObject(load: () => configParser);
 
       final appCreator = ProjectCreator(

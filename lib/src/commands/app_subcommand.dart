@@ -41,10 +41,11 @@ class AppSubcommand extends BaseCommand {
       args.add('-v');
     }
     // Start the Flutter process
-    await Process.start('flutter', args,
-        mode: ProcessStartMode.inheritStdio,
-        runInShell: Platform.isWindows,
-        workingDirectory: app.dir.path);
+    await cache.processManager.fetch.run(LokiProcess(
+        command: 'flutter',
+        args: args,
+        hasStdin: true,
+        workingDir: app.dir.path));
   }
 
   /// Adds options to the subcommand.

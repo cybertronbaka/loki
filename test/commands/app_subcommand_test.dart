@@ -42,7 +42,7 @@ void main() {
 
       try {
         appCreator.run();
-        final command = AppSubcommand(app);
+        final command = AppSubcommand(app, ['app', app.name]);
         final runner = CommandRunner('loki', 'testing')..addCommand(command);
         await runner.run([app.name, '-f', 'dev', '-v']);
         expect(command.name, app.name);

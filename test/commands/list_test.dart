@@ -31,7 +31,7 @@ void main() {
         appCreator.run();
         packageCreator.run();
         await FlutterLockRunner.run(() async {
-          final command = ListCommand();
+          final command = ListCommand(['list']);
           await command.run();
           expect(command.name, contains('list'));
           expect(command.description,

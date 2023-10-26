@@ -42,8 +42,8 @@ class ProjectFilter {
     if (!cache.firstTime.fetch) return;
 
     if (packages.isNotEmpty) {
-      console.writeln(
-          chalk.blueBright('Packages Found 📦 (${packages.length}):'));
+      console
+          .writeln(chalk.blueBright('Packages Found 📦 (${packages.length}):'));
       for (var pack in packages) {
         console.writeln(
             '    - ${chalk.cyan(pack.name)} @ ${chalk.cyan(pack.dir.path)}');

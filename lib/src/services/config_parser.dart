@@ -85,21 +85,21 @@ _ScriptConfigValidationRules _scriptsConfigRules = _ScriptConfigValidationRules(
             chalk.blueBright('scripts:$command (value)'),
         rules: [_vIsRequired, _vIsYamlMap]),
     name: Validator(
-        messagePrefix: ([command]) =>
-            chalk.blueBright('scripts:$command:name'),
+        messagePrefix: ([command]) => chalk.blueBright('scripts:$command:name'),
         rules: [_vIsNullOrString]),
     description: Validator(
         messagePrefix: ([command]) =>
             chalk.blueBright('scripts:$command:description'),
         rules: [_vIsNullOrString]),
     exec: Validator(
-        messagePrefix: ([command]) =>
-            chalk.blueBright('scripts:$command:exec'),
+        messagePrefix: ([command]) => chalk.blueBright('scripts:$command:exec'),
         rules: [_vIsRequired, _vIsString]),
     command: Validator(
-        messagePrefix: ([command]) => chalk.blueBright('scripts:$command (key)'),
+        messagePrefix: ([command]) =>
+            chalk.blueBright('scripts:$command (key)'),
         rules: [_vIsRequired, _vIsString]),
-    stdin: Validator(messagePrefix: ([command]) => chalk.blueBright('scripts:$command:flutter_run'), rules: [_vIsNullOrBool]),
+    stdin:
+        Validator(messagePrefix: ([command]) => chalk.blueBright('scripts:$command:flutter_run'), rules: [_vIsNullOrBool]),
     workingDir: Validator(messagePrefix: ([command]) => chalk.blueBright('scripts:$command:working_dir'), rules: [_vIsNullOrString]));
 
 /// Class responsible for generating Loki configurations from YAML data.

@@ -3,7 +3,7 @@ part of commands;
 /// A command to clean all packages and apps using `flutter clean`.
 class CleanCommand extends BaseCommand {
   bool cleanOnRoot;
-  CleanCommand({this.cleanOnRoot = true});
+  CleanCommand(super.arguments, {this.cleanOnRoot = true});
 
   @override
   String get description => 'Runs `flutter clean` in all packages and apps';
@@ -44,7 +44,7 @@ class CleanCommand extends BaseCommand {
       process,
       onSuccess: () {
         console.writeln(
-          'Loki: ${chalk.blueBright('Cleaned 🍕 in ${chalk.cyan(pro.name)} @ ${chalk.cyan(pro.dir.path)}  (${chalk.cyan(pro.type.name)})')}');
+            'Loki: ${chalk.blueBright('Cleaned 🍕 in ${chalk.cyan(pro.name)} @ ${chalk.cyan(pro.dir.path)}  (${chalk.cyan(pro.type.name)})')}');
       },
       // coverage:ignore-start
       onError: () {

@@ -29,7 +29,7 @@ void main() {
 
       try {
         appCreator.run();
-        final command = AppCommand();
+        final command = AppCommand(['app']);
         expect(command.name, 'app');
         expect(command.description, 'Runs a flutter app in the workspace');
         expect(command.subcommands.keys, ['app1']);

@@ -24,11 +24,12 @@ void main() {
       ]));
       cache.configParser.set(configParser);
 
-      final command = RunCommand();
+      final command = RunCommand(['run']);
       expect(command.name, 'run');
       expect(command.description,
-          'Run a script by name defined in the workspace loki.yaml config file.\n\nTo run a script in sequence join the scripts using &&&.');
+          'Run a script by name defined in the workspace loki.yaml config file.\n\nTo run a script in sequence join the scripts using &&.');
       expect(command.subcommands.keys, ['echo']);
+      expect(command.aliases, ['r']);
     });
   });
 }

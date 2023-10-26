@@ -5,7 +5,7 @@ part of commands;
 /// Accepts [LokiScriptConfig]
 class RunSubcommand extends BaseCommand {
   LokiScriptConfig script;
-  RunSubcommand(this.script);
+  RunSubcommand(this.script, super.arguments);
 
   late Directory _currentDir;
 
@@ -18,7 +18,7 @@ class RunSubcommand extends BaseCommand {
 
   @override
   String get description =>
-      '${script.description ?? 'Runs ${script.exec}'}\n\nTo run a script in sequence join the scripts using &&&.';
+      '${script.description ?? 'Runs ${script.exec}'}\n\nTo run a script in sequence join the scripts using &&.';
 
   @override
   FutureOr<void>? run() async {
@@ -103,15 +103,18 @@ class RunSubcommand extends BaseCommand {
 
 /// A command to run a script by name defined in the workspace loki.yaml config file.
 class RunCommand extends BaseCommand {
-  RunCommand() {
+  RunCommand(super.arguments) {
     addOptions();
   }
   @override
   String get description =>
-      'Run a script by name defined in the workspace loki.yaml config file.\n\nTo run a script in sequence join the scripts using &&&.';
+      'Run a script by name defined in the workspace loki.yaml config file.\n\nTo run a script in sequence join the scripts using &&.';
 
   @override
   String get name => 'run';
+
+  @override
+  List<String> get aliases => ['r'];
 
   @override
   FutureOr<void>? run() {
@@ -120,9 +123,12 @@ class RunCommand extends BaseCommand {
 
   /// Adds options based on the configured scripts. Adds scripts from loki.yaml to subcommands.
   void addOptions() {
+    if (!(arguments.contains(name) ||
+        aliases.any((e) => arguments.contains(e)))) return;
+
     loadConfig();
     for (var e in config.scripts) {
-      addSubcommand(RunSubcommand(e));
+      addSubcommand(RunSubcommand(e, arguments));
     }
   }
 }

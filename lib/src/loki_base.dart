@@ -41,18 +41,19 @@ class LokiBase {
   /// Exits with code 1 on [ArgParserException] if there is an issue parsing command-line arguments.
   /// Exits with code 1 on [UsageException] if there is an issue with command usage.
   Future<void> run(List<String> arguments) async {
+    // final t1 = DateTime.timestamp();
     cache.firstTime.set(firstTime);
     _drawLogo();
 
     try {
       final runner = CommandRunner<void>(_executableName, _description)
-        ..addCommand(FetchCommand())
-        ..addCommand(CleanCommand())
-        ..addCommand(ListCommand())
-        ..addCommand(RunCommand())
-        ..addCommand(ValidateCommand())
-        ..addCommand(VersionCommand())
-        ..addCommand(AppCommand());
+        ..addCommand(FetchCommand(arguments))
+        ..addCommand(CleanCommand(arguments))
+        ..addCommand(ListCommand(arguments))
+        ..addCommand(RunCommand(arguments))
+        ..addCommand(ValidateCommand(arguments))
+        ..addCommand(VersionCommand(arguments))
+        ..addCommand(AppCommand(arguments));
 
       await runner.run(arguments);
     } on PathNotFoundException catch (e, _) {
@@ -72,6 +73,10 @@ class LokiBase {
     } on UsageException catch (e) {
       console.writeln(e.toString());
       exit(1);
+    } finally {
+      // final t2 = DateTime.timestamp();
+      // console.writeln('\n\nTook ${t2.microsecondsSinceEpoch - t1.microsecondsSinceEpoch} micro-secs');
+      // console.writeln('Took ${t2.millisecondsSinceEpoch - t1.millisecondsSinceEpoch} milli-secs');
     }
   }
 

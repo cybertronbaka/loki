@@ -2,6 +2,8 @@ part of commands;
 
 /// A command to install dependencies in packages and apps.
 class FetchCommand extends BaseCommand {
+  FetchCommand(super.arguments);
+
   @override
   String get description => 'Install dependencies in packages and apps';
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:loki/src/errors/errors.dart';
 import 'package:loki/src/models/models.dart';
 import 'package:loki/src/services/services.dart';
 import 'package:mocktail/mocktail.dart';
@@ -19,7 +20,8 @@ void main() {
           packages: ['test/.tmp_project_filter0']));
       cache.configParser = CacheObject(load: () => configParser);
       final filter = ProjectFilter();
-      expect(() => filter.run(configParser.config), throwsArgumentError);
+      expect(() => filter.run(configParser.config),
+          throwsA(TypeMatcher<LokiError>()));
     });
 
     test('run - nothing at dir', () {

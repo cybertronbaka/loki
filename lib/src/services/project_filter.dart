@@ -65,8 +65,8 @@ class ProjectFilter {
   bool _isApp(Directory dir, Map yaml) {
     bool isIt = File('${dir.path}/pubspec.yaml').existsSync();
     if (!isIt) return false;
-
-    return isIt && yaml['dependencies']?['flutter'] != null;
+    final platforms = ['ios','android','windows','linux','macos','web'];
+    return isIt && platforms.any((e) => Directory('${dir.path}/$e').existsSync());
   }
 
   /// Checks if the directory at [dir] contains a valid project.

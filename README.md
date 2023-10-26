@@ -54,7 +54,14 @@ workspace/
   
 ```
 
-Subsequently, create a loki.yaml file at the root of the repository. Within this file, specify the name and packages fields:
+Create a loki.yaml file with
+```sh
+loki init
+```
+
+or 
+
+Create a loki.yaml file manually at the root of the repository. Within this file, specify the name and packages fields:
 
 ```yaml
 name: <project>
@@ -152,6 +159,7 @@ Available commands:
   app        Runs a flutter app in the workspace
   clean      Runs `flutter clean` in all packages and apps
   fetch      Install dependencies in packages and apps
+  init       Creates loki.yaml.
   list       List all local packages in apps.
   run        Run a script by name defined in the workspace loki.yaml config file.
   validate   Validate loki.yaml config file.

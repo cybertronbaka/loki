@@ -47,6 +47,7 @@ class LokiBase {
 
     try {
       final runner = CommandRunner<void>(_executableName, _description)
+        ..addCommand(InitCommand(arguments))
         ..addCommand(FetchCommand(arguments))
         ..addCommand(CleanCommand(arguments))
         ..addCommand(ListCommand(arguments))

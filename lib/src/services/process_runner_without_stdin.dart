@@ -32,9 +32,9 @@ class ProcessRunnerWithoutStdin extends ProcessRunner {
       }).join('');
       stdErr.write(str);
     }).asFuture();
-    await p.exitCode;
+    final exitCode = await p.exitCode;
     if (config.clearStdOut && stdOutLines != 0) _clearNLines(stdOutLines);
-    if (stdErrLines != 0) {
+    if (exitCode != 0) {
       console.moveUpAndClear();
       if (onError != null) onError!();
       throw LokiError(stdErr.toString());

@@ -28,8 +28,8 @@ class DevicesFilter {
   }
 
   /// Prints information about the available Flutter devices to the console.
-  void printDevices() {
-    if (!cache.firstTime.fetch) return;
+  void printDevices({bool force = false}) {
+    if (cache.loopCount.fetch != 0 && !force) return;
 
     console.writeln(
         chalk.yellowBright('Devices available 💻 (${devices.length}):'));

@@ -53,7 +53,7 @@ class RunSubcommand extends BaseCommand {
           // coverage:ignore-end
           );
     }
-    console.printAllDone();
+    if (cache.loopCount.fetch == 0) console.printAllDone();
   }
 
   /// Handle cd commands
@@ -78,7 +78,9 @@ class RunSubcommand extends BaseCommand {
   Future<bool> _handleLoki() async {
     if (_command != 'loki') return false;
 
-    await LokiBase(false).run(_args);
+    final loopCount = cache.loopCount.fetch + 1;
+    await LokiBase(loopCount).run(_args);
+    cache.loopCount.set(loopCount - 1);
     return true;
   }
 
@@ -88,7 +90,9 @@ class RunSubcommand extends BaseCommand {
   Future<bool> _handleLKR() async {
     if (_command != 'lkr') return false;
 
-    await LokiBase(false).run(['run'] + _args);
+    final loopCount = cache.loopCount.fetch + 1;
+    await LokiBase(loopCount).run(['run'] + _args);
+    cache.loopCount.set(loopCount - 1);
     return true;
   }
 

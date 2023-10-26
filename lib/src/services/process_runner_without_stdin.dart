@@ -12,7 +12,6 @@ class ProcessRunnerWithoutStdin extends ProcessRunner {
   /// The method then handles the standard output and standard error based on the provided options.
   Future<void> run() async {
     int stdOutLines = 0;
-    int stdErrLines = 0;
     final p = await Process.start(config.command, config.args,
         workingDirectory: config.workingDir, runInShell: true);
     p.stdout.listen((event) {
@@ -27,7 +26,6 @@ class ProcessRunnerWithoutStdin extends ProcessRunner {
     await p.stderr.listen((event) async {
       var str = event.map((e) {
         final ch = String.fromCharCode(e);
-        if (ch == '\n') stdErrLines++;
         return ch;
       }).join('');
       stdErr.write(str);

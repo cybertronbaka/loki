@@ -1,4 +1,3 @@
-import 'package:chalkdart/chalk.dart';
 import 'package:loki/src/commands/commands.dart';
 import 'package:loki/src/services/services.dart';
 import 'package:loki/src/version.dart';

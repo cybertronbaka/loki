@@ -48,13 +48,13 @@ class LokiCache {
   /// DevicesFilter devicesFilter = cache.devicesFilter.fetch
   /// ```
   late CacheObject<DevicesFilter> devicesFilter;
-  late CacheObject<bool> firstTime;
+  late CacheObject<int> loopCount;
   late CacheObject<String> lokiYamlPath;
   late CacheObject<ProcessManager> processManager;
 
   /// Constructs a [LokiCache] and initializes cache objects.
   LokiCache() {
-    firstTime = CacheObject(load: () => true);
+    loopCount = CacheObject(load: () => 0);
     lokiYamlPath =
         CacheObject(load: () => '${Directory.current.absolute.path}/loki.yaml');
     configParser = CacheObject<ConfigParser>(load: () {

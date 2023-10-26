@@ -38,8 +38,8 @@ class ProjectFilter {
   }
 
   /// Prints information about the discovered projects to the console.
-  void printProjects() {
-    if (!cache.firstTime.fetch) return;
+  void printProjects({bool force = false}) {
+    if (cache.loopCount.fetch != 0 && !force) return;
 
     if (packages.isNotEmpty) {
       console.writeln(
@@ -65,8 +65,9 @@ class ProjectFilter {
   bool _isApp(Directory dir, Map yaml) {
     bool isIt = File('${dir.path}/pubspec.yaml').existsSync();
     if (!isIt) return false;
-    final platforms = ['ios','android','windows','linux','macos','web'];
-    return isIt && platforms.any((e) => Directory('${dir.path}/$e').existsSync());
+    final platforms = ['ios', 'android', 'windows', 'linux', 'macos', 'web'];
+    return isIt &&
+        platforms.any((e) => Directory('${dir.path}/$e').existsSync());
   }
 
   /// Checks if the directory at [dir] contains a valid project.

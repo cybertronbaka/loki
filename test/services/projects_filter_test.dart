@@ -20,7 +20,8 @@ void main() {
           packages: ['test/.tmp_project_filter0']));
       cache.configParser = CacheObject(load: () => configParser);
       final filter = ProjectFilter();
-      expect(() => filter.run(configParser.config), throwsA(TypeMatcher<LokiError>()));
+      expect(() => filter.run(configParser.config),
+          throwsA(TypeMatcher<LokiError>()));
     });
 
     test('run - nothing at dir', () {

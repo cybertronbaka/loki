@@ -94,7 +94,7 @@ class RunSubcommand extends BaseCommand {
 
   /// Displays information about the script.
   void showScriptInfo() {
-    console.writeln(chalk.yellowBright(
+    console.writeln(chalk.blueBright(
         'Running Script (${chalk.cyan(script.name ?? script.exec)})\n'
         'Working Directory: ${chalk.cyan(script.workingDir ?? '.')}\n'
         'Description: ${chalk.cyan(script.description ?? '-')}\n'));

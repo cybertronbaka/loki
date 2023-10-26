@@ -32,7 +32,7 @@ class DevicesFilter {
     if (!cache.firstTime.fetch) return;
 
     console.writeln(
-        chalk.yellowBright('Devices available 💻 (${devices.length}):'));
+        chalk.blueBright('Devices available 💻 (${devices.length}):'));
     for (var d in devices) {
       console.writeln(
           '    - { id: ${chalk.cyan(d.id)}, name: ${d.name}, platform: ${d.targetPlatform} }');

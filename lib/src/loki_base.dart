@@ -79,7 +79,7 @@ class LokiBase {
   void _drawLogo() {
     if (!cache.firstTime.fetch) {
       console.writeln(
-          '\nLoki: ${chalk.yellowBright('Running another instance of loki,,,')}\n');
+          '\nLoki: ${chalk.blueBright('Running another instance of loki,,,')}\n');
       return;
     }
 

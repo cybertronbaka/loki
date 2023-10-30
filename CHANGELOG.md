@@ -1,3 +1,16 @@
+## 0.2.0
+
+- chore: bump version to 0.2.0
+- chore: write test for init command
+- feat: Add init command
+- feat: execute 'loki' without loki.yaml
+- chore: reserving yellowBright for warnings
+- chore: fix failing tests
+- feat: recursive run commands are indented with 2 spaces
+- chore: update new tests
+- fix: loki to look for  directory to check if it is an app. handle project creator changes based on this
+- fix: ProcessRunnerWithoutStdin to use exitcode to figure out errors instead of stderrLines
+
 ## 0.1.2
 
 - chore: bump version to 0.1.2

@@ -13,7 +13,7 @@ void main() {
 
     setUp(() {
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       cache = LokiCache();
 
       registerFallbackValue(LokiProcess(command: 'echo'));

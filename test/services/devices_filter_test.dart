@@ -2,6 +2,8 @@ import 'package:loki/src/models/models.dart';
 import 'package:loki/src/services/services.dart';
 import 'package:test/test.dart';
 
+import '../mocks/mocks.dart';
+
 void main() {
   group('DevicesFilter', () {
     test('run - returns a list of supported devices', () {
@@ -29,7 +31,7 @@ void main() {
             emulator: true,
             sdk: ''),
       ];
-      console = Console(StringBuffer());
+      console = Console(StringBuffer(), MockStdin());
       filter.printDevices();
     });
   });

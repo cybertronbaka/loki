@@ -12,7 +12,7 @@ void main() {
   group('ListCommand', () {
     test('loads config, shows app info, and prints "All Done"', () async {
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       cache = LokiCache();
       final projectsPath = 'test/.tmp_list';
       DirectoryUtils.mkdir(projectsPath);

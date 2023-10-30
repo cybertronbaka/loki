@@ -5,6 +5,8 @@ import 'package:loki/src/services/services.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
+import '../mocks/mocks.dart';
+
 void main() {
   group('services::config_parser', () {
     test('fromYaml', () {
@@ -69,7 +71,7 @@ void main() {
     });
 
     test('showAppInfo', () {
-      console = Console(StringBuffer());
+      console = Console(StringBuffer(), MockStdin());
       final path = Directory('test/fixtures/valid1.yaml').path;
       final parser = ConfigParser.fromYaml(path)..generate();
       parser.showAppInfo();

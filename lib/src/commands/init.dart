@@ -1,7 +1,8 @@
 part of commands;
 
 class InitCommand extends BaseCommand {
-  InitCommand(super.arguments);
+  String currentDir;
+  InitCommand(super.arguments, [this.currentDir = '.']);
 
   @override
   String get description => 'Creates loki.yaml.';
@@ -11,7 +12,7 @@ class InitCommand extends BaseCommand {
 
   @override
   FutureOr<void>? run() async {
-    final file = File('loki.yaml');
+    final file = File('$currentDir/loki.yaml');
     if (file.existsSync()) {
       console.writeln('Loki: loki.yaml detected!');
       console.writeln(
@@ -29,7 +30,7 @@ class InitCommand extends BaseCommand {
   }
 
   String _getChoice() {
-    final choice = stdin.readLineSync();
+    final choice = console.readLineSync();
     if (choice == null) return 'n';
 
     return choice;

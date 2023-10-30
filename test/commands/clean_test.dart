@@ -12,7 +12,7 @@ void main() {
   group('CleanCommand', () {
     test('cleans on projects', () async {
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       cache = LokiCache();
       final projectsPath = 'test/.tmp_clean';
       DirectoryUtils.mkdir(projectsPath);

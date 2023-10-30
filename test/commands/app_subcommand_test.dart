@@ -18,7 +18,7 @@ void main() {
 
     test('runs successfully', () async {
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       cache = LokiCache();
       final projectsPath = 'test/.tmp_app_sub';
       DirectoryUtils.mkdir(projectsPath);

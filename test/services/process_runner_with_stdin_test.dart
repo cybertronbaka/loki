@@ -4,6 +4,8 @@ import 'package:loki/src/models/models.dart';
 import 'package:loki/src/services/services.dart';
 import 'package:test/test.dart';
 
+import '../mocks/mocks.dart';
+
 void main() {
   group('ProcessRunnerWithStdin', () {
     /// If this fails it is probably because test/fixtures/stdin.sh
@@ -12,7 +14,7 @@ void main() {
     /// chmod +x test/fixtures/stdin.sh
     test('success', () async {
       StringBuffer buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       int lines = 0;
       await ProcessRunnerWithStdin(
           isTest: true,
@@ -43,7 +45,7 @@ void main() {
 
     test('success', () async {
       StringBuffer buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       bool error = false;
       try {
         await ProcessRunnerWithStdin(

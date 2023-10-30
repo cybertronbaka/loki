@@ -1,5 +1,6 @@
 ## 0.2.0
 
+- chore: dart format for publishing
 - chore: bump version to 0.2.0
 - chore: write test for init command
 - feat: Add init command

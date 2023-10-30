@@ -8,8 +8,8 @@ import 'package:test/test.dart';
 import '../mocks/mocks.dart';
 import '../test_utils/project_creator.dart';
 
-void main(){
-  group('commands:init', (){
+void main() {
+  group('commands:init', () {
     test('creates a loki.yaml file', () async {
       final stdin = MockStdin();
       console = Console(StringBuffer(), stdin);

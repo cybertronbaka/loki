@@ -45,7 +45,7 @@ class Console {
     return '  ' * cache.loopCount.fetch;
   }
 
-  String? readLineSync(){
+  String? readLineSync() {
     return iSink.readLineSync();
   }
 

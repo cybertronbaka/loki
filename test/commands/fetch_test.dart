@@ -13,7 +13,7 @@ void main() {
     test('loads config, shows app info, and fetches dependencies for projects',
         () async {
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       cache = LokiCache();
       final projectsPath = 'test/.tmp_fetch';
       DirectoryUtils.mkdir(projectsPath);
@@ -31,7 +31,7 @@ void main() {
         appCreator.run();
         packageCreator.run();
         await FlutterLockRunner.run(() async {
-          final command = FetchCommand();
+          final command = FetchCommand(['fetch']);
           await command.run();
           expect(command.name, 'fetch');
           expect(

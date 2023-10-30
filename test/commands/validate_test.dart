@@ -2,12 +2,14 @@ import 'package:loki/src/commands/commands.dart';
 import 'package:loki/src/services/services.dart';
 import 'package:test/test.dart';
 
+import '../mocks/mocks.dart';
+
 void main() {
   group('ValidateCommand', () {
     test('loads config, shows app info, and prints "All Done"', () async {
-      final command = ValidateCommand();
+      final command = ValidateCommand(['validate']);
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       final path = 'test/fixtures/valid2.yaml';
       cache.lokiYamlPath.set(path);
       cache.loopCount.set(0);

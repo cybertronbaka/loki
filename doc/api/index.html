@@ -29,7 +29,7 @@
 <header id="title">
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
-    <li class="self-crumb">loki package</li>
+    <li><a href="https://github.com/cybertronbaka/loki">loki package</a></li>
   </ol>
   <div class="self-name">loki</div>
   <form class="search navbar-right" role="search">
@@ -53,8 +53,23 @@
       
 <section class="desc markdown">
   <h1 id="loki">Loki</h1>
+<p><a href="https://pub.dev/packages/loki"><img src="https://img.shields.io/badge/managed_with-loki-blue" alt="Static Badge"></a> <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a></p>
 <p>Loki is a command-line interface (CLI) tool designed for managing Dart and Flutter projects featuring multiple packages.</p>
 <p>The inspiration for Loki was drawn from <code>melos</code>. However, <code>melos</code> lacked support for running applications with distinct flavors and encountered issues with hot reloading/restarting due to detached stdin. Hence, this package was conceived.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Running apps ☑️
+<ul>
+<li>Running apps in (debug, release, profile) ☑️</li>
+<li>Running apps in flavors ☑️</li>
+</ul>
+</li>
+<li>Clean workspace ☑️</li>
+<li>Fetching dependencies in workspace ☑️</li>
+<li>List packages/apps in workspace ☑️</li>
+<li>Run custom scripts with or without standard input ☑️</li>
+<li>Validating config file ☑️</li>
+</ul>
 <h2 id="installation">Installation</h2>
 <p>To install the package from the command line after cloning the repository:</p>
 <pre class="language-sh"><code class="language-sh">git clone https://github.com/cybertronbaka/loki.git
@@ -79,7 +94,11 @@
       pubspec.yaml
   
 </code></pre>
-<p>Subsequently, create a loki.yaml file at the root of the repository. Within this file, specify the name and packages fields:</p>
+<p>Create a loki.yaml file with</p>
+<pre class="language-sh"><code class="language-sh">loki init
+</code></pre>
+<p>or</p>
+<p>Create a loki.yaml file manually at the root of the repository. Within this file, specify the name and packages fields:</p>
 <pre class="language-yaml"><code class="language-yaml">name: &lt;project&gt;
 description: &lt;description&gt;
 packages:
@@ -99,12 +118,21 @@ scripts:
     exec: flutter run # Required
     working_dir: apps/app1 # Optional (Default is . )
     stdin: true # Optional
+  test:
+    name: Run tests
+    exec: flutter test
+  analyze:
+    name: analyze
+    exec: dart analyze
+  test:analyze:1:
+    exec: lkr analyze &amp;&amp; loki run test
 </code></pre>
 <p>In this context,</p>
 <ul>
 <li><code>name</code> denotes the script's name and is optional.</li>
 <li><code>working_dir</code> determines where <code>exec</code> will be executed.</li>
-<li><code>stdin: true</code> facilitates the script's capacity to receive input directly from users via the terminal. This proves valuable for scripts like flutter run to enable hot reload and hot restart.</li>
+<li><code>stdin: true</code> enables the script to directly receive input from users through the terminal. This is particularly useful for scripts like flutter run which benefit from features like hot reload and hot restart.</li>
+<li><code>exec</code> field specifies the actual command that will be executed by your script. Currently, we have a single shorthand, <code>lkr</code>, which corresponds to the <code>loki run</code> command. Please note that <code>lkr</code> cannot be used independently in a shell; it is exclusively scoped within the context of <code>loki run</code></li>
 </ul>
 <h4 id="to-obtain-a-list-of-scripts-execute">To obtain a list of scripts, execute:</h4>
 <pre class="language-sh"><code class="language-sh">loki help run
@@ -148,12 +176,18 @@ Available commands:
   app        Runs a flutter app in the workspace
   clean      Runs `flutter clean` in all packages and apps
   fetch      Install dependencies in packages and apps
+  init       Creates loki.yaml.
   list       List all local packages in apps.
   run        Run a script by name defined in the workspace loki.yaml config file.
   validate   Validate loki.yaml config file.
   version    Print version information
 
 Run "loki help &lt;command&gt;" for more information about a command.
+</code></pre>
+<h2 id="readme-badge">Readme badge</h2>
+<p>Using loki? Add a README badge to show it off:</p>
+<p><a href="https://pub.dev/packages/loki"><img src="https://img.shields.io/badge/managed_with-loki-blue" alt="Static Badge"></a></p>
+<pre class="language-markdown"><code class="language-markdown">[![Static Badge](https://img.shields.io/badge/managed_with-loki-blue)](https://pub.dev/packages/loki)
 </code></pre>
 <h2 id="contributing">Contributing</h2>
 <p>Contributions are always welcome!</p>
@@ -184,7 +218,7 @@ Run "loki help &lt;command&gt;" for more information about a command.
 </header>
 
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
-    <li class="self-crumb">loki package</li>
+    <li><a href="https://github.com/cybertronbaka/loki">loki package</a></li>
 </ol>
 
 
@@ -204,7 +238,7 @@ Run "loki help &lt;command&gt;" for more information about a command.
 <footer>
   <span class="no-break">
     loki
-      0.0.1
+      0.1.2
   </span>
 
   

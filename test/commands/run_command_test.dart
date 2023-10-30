@@ -14,7 +14,7 @@ void main() {
 
     test('adds scripts keys as subcommands', () async {
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       cache = LokiCache();
 
       var configParser = MockConfigParser();
@@ -24,7 +24,7 @@ void main() {
       ]));
       cache.configParser.set(configParser);
 
-      final command = RunCommand();
+      final command = RunCommand(['run']);
       try {
         await command.run();
       } catch (e) {
@@ -32,8 +32,18 @@ void main() {
       }
       expect(command.name, 'run');
       expect(command.description,
-          'Run a script by name defined in the workspace loki.yaml config file.\n\nTo run a script in sequence join the scripts using &&&.');
+          'Run a script by name defined in the workspace loki.yaml config file.\n\nTo run a script in sequence join the scripts using &&.');
       expect(command.subcommands.keys, ['echo']);
+      expect(command.aliases, ['r']);
+    });
+
+    test('adds scripts keys as subcommands', () async {
+      final buffer = StringBuffer();
+      console = Console(buffer, MockStdin());
+      cache = LokiCache();
+
+      final command = RunCommand(['list']);
+      expect(command.subcommands, {});
     });
   });
 }

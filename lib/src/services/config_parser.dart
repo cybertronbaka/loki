@@ -67,40 +67,40 @@ var _vIsNullOrBool =
 
 _RootConfigValidationRules _rootRules = _RootConfigValidationRules(
     name: Validator(
-        messagePrefix: ([_]) => chalk.yellowBright('name'),
+        messagePrefix: ([_]) => chalk.blueBright('name'),
         rules: [_vIsRequired, _vIsString]),
     description: Validator(
-        messagePrefix: ([_]) => chalk.yellowBright('description'),
+        messagePrefix: ([_]) => chalk.blueBright('description'),
         rules: [_vIsNullOrString]),
     packages: Validator(
-        messagePrefix: ([_]) => chalk.yellowBright('packages'),
+        messagePrefix: ([_]) => chalk.blueBright('packages'),
         rules: [_vIsNullOrYamlList, _vIsNullOrListOfString]),
     scripts: Validator(
-        messagePrefix: ([_]) => chalk.yellowBright('scripts'),
+        messagePrefix: ([_]) => chalk.blueBright('scripts'),
         rules: [_vIsNullOrYamlMap]));
 
 _ScriptConfigValidationRules _scriptsConfigRules = _ScriptConfigValidationRules(
     root: Validator(
         messagePrefix: ([command]) =>
-            chalk.yellowBright('scripts:$command (value)'),
+            chalk.blueBright('scripts:$command (value)'),
         rules: [_vIsRequired, _vIsYamlMap]),
     name: Validator(
-        messagePrefix: ([command]) =>
-            chalk.yellowBright('scripts:$command:name'),
+        messagePrefix: ([command]) => chalk.blueBright('scripts:$command:name'),
         rules: [_vIsNullOrString]),
     description: Validator(
         messagePrefix: ([command]) =>
-            chalk.yellowBright('scripts:$command:description'),
+            chalk.blueBright('scripts:$command:description'),
         rules: [_vIsNullOrString]),
     exec: Validator(
-        messagePrefix: ([command]) =>
-            chalk.yellowBright('scripts:$command:exec'),
+        messagePrefix: ([command]) => chalk.blueBright('scripts:$command:exec'),
         rules: [_vIsRequired, _vIsString]),
     command: Validator(
-        messagePrefix: ([command]) => chalk.yellowBright('scripts:$command (key)'),
+        messagePrefix: ([command]) =>
+            chalk.blueBright('scripts:$command (key)'),
         rules: [_vIsRequired, _vIsString]),
-    stdin: Validator(messagePrefix: ([command]) => chalk.yellowBright('scripts:$command:flutter_run'), rules: [_vIsNullOrBool]),
-    workingDir: Validator(messagePrefix: ([command]) => chalk.yellowBright('scripts:$command:working_dir'), rules: [_vIsNullOrString]));
+    stdin:
+        Validator(messagePrefix: ([command]) => chalk.blueBright('scripts:$command:flutter_run'), rules: [_vIsNullOrBool]),
+    workingDir: Validator(messagePrefix: ([command]) => chalk.blueBright('scripts:$command:working_dir'), rules: [_vIsNullOrString]));
 
 /// Class responsible for generating Loki configurations from YAML data.
 class ConfigParser {
@@ -137,7 +137,7 @@ class ConfigParser {
   void showAppInfo({bool force = false}) {
     if (cache.loopCount.fetch != 0 && !force) return;
 
-    console.write('${chalk.yellowBright('Loki Workspace Info 🎉🎉 :\n')}'
+    console.write('${chalk.blueBright('Loki Workspace Info 🎉🎉 :\n')}'
         ' Name: ${chalk.cyan(config.name)}\n'
         ' Description: ${chalk.cyan(config.description ?? '-')}\n\n'
         '');

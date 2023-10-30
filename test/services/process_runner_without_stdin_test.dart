@@ -3,9 +3,11 @@ import 'package:loki/src/models/models.dart';
 import 'package:loki/src/services/services.dart';
 import 'package:test/test.dart';
 
+import '../mocks/mocks.dart';
+
 void main() {
   group('ProcessRunnerWithoutStdin', () {
-    console = Console(StringBuffer());
+    console = Console(StringBuffer(), MockStdin());
 
     test('runs successfully with no output or errors', () async {
       bool success = false;

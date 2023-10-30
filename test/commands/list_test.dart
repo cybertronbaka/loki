@@ -12,7 +12,7 @@ void main() {
   group('ListCommand', () {
     test('loads config, shows app info, and prints "All Done"', () async {
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       cache = LokiCache();
       final projectsPath = 'test/.tmp_list';
       DirectoryUtils.mkdir(projectsPath);
@@ -31,7 +31,7 @@ void main() {
         appCreator.run();
         packageCreator.run();
         await FlutterLockRunner.run(() async {
-          final command = ListCommand();
+          final command = ListCommand(['list']);
           await command.run();
           expect(command.name, contains('list'));
           expect(command.description,

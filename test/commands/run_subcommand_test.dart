@@ -13,7 +13,7 @@ void main() {
 
     setUp(() {
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       cache = LokiCache();
 
       registerFallbackValue(LokiProcess(command: 'echo'));
@@ -34,7 +34,7 @@ void main() {
           name: 'echo',
           description: 'desc');
 
-      final command = RunSubcommand(script);
+      final command = RunSubcommand(script, ['run', 'echo']);
       await command.run();
       expect(command.name, script.command);
       expect(command.description, contains(script.description));
@@ -50,7 +50,7 @@ void main() {
           name: 'echo',
           description: 'desc');
 
-      final command = RunSubcommand(script);
+      final command = RunSubcommand(script, ['run', 'echo']);
       await command.run();
       expect(command.name, script.command);
       expect(command.description, contains(script.description));
@@ -63,7 +63,7 @@ void main() {
       final script = LokiScriptConfig(
           command: 'echo', exec: 'cd ../', name: 'echo', description: 'desc');
 
-      final command = RunSubcommand(script);
+      final command = RunSubcommand(script, ['run', 'echo']);
       await command.run();
       expect(command.name, script.command);
       expect(command.description, contains(script.description));
@@ -74,7 +74,7 @@ void main() {
       final script = LokiScriptConfig(
           command: 'echo', exec: 'cd', name: 'echo', description: 'desc');
 
-      final command = RunSubcommand(script);
+      final command = RunSubcommand(script, ['run', 'echo']);
       try {
         await command.run();
       } catch (e) {

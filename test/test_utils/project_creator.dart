@@ -83,3 +83,20 @@ class DirectoryUtils {
     dir.deleteSync(recursive: true);
   }
 }
+
+class FileUtils {
+  static void create(String path, String contents) {
+    final file = File(path);
+    if (file.existsSync()) return;
+
+    file.createSync(recursive: true);
+    file.writeAsStringSync(contents);
+  }
+
+  static void remove(String path) {
+    final file = File(path);
+    if (!file.existsSync()) return;
+
+    file.deleteSync(recursive: true);
+  }
+}

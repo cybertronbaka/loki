@@ -3,7 +3,8 @@ part of services;
 /// A class providing utility methods for interacting with the console.
 class Console {
   StringSink sink;
-  Console(this.sink);
+  Stdin iSink;
+  Console(this.sink, this.iSink);
 
   void write(Object? object) {
     sink.write(_prependSpaces(object));
@@ -44,6 +45,10 @@ class Console {
     return '  ' * cache.loopCount.fetch;
   }
 
+  String? readLineSync(){
+    return iSink.readLineSync();
+  }
+
   String get attributionText =>
       'Made with ❤️  by ${chalk.cyan('Dorji Gyeltshen ( ${chalk.red('@cybertronbaka')} )')}';
 
@@ -51,4 +56,4 @@ class Console {
 }
 
 /// An instance of the [Console] class providing utility methods for interacting with the console.
-var console = Console(stdout);
+var console = Console(stdout, stdin);

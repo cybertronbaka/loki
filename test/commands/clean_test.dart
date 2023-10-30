@@ -12,7 +12,7 @@ void main() {
   group('CleanCommand', () {
     test('cleans on projects', () async {
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       cache = LokiCache();
       final projectsPath = 'test/.tmp_clean';
       DirectoryUtils.mkdir(projectsPath);
@@ -31,7 +31,7 @@ void main() {
         appCreator.run();
         packageCreator.run();
         await FlutterLockRunner.run(() async {
-          final command = CleanCommand(cleanOnRoot: false);
+          final command = CleanCommand(['clean'], cleanOnRoot: false);
           await command.run();
           expect(command.name, 'clean');
           expect(command.description,

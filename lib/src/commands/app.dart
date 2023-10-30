@@ -7,7 +7,7 @@ part of commands;
 /// loki app
 /// ```
 class AppCommand extends BaseCommand {
-  AppCommand() {
+  AppCommand(super.arguments) {
     addOptions();
   }
 
@@ -24,10 +24,12 @@ class AppCommand extends BaseCommand {
 
   /// Adds subcommands to app command. Subcommands include apps found under packages
   void addOptions() {
+    if (!arguments.contains(name)) return;
+
     loadConfig();
     final apps = cache.projectFilter.fetch.apps;
     for (var app in apps) {
-      addSubcommand(AppSubcommand(app));
+      addSubcommand(AppSubcommand(app, super.arguments));
     }
   }
 }

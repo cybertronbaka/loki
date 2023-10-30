@@ -18,7 +18,7 @@ void main() {
 
     test('runs successfully', () async {
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       cache = LokiCache();
       final projectsPath = 'test/.tmp_app_sub';
       DirectoryUtils.mkdir(projectsPath);
@@ -42,7 +42,7 @@ void main() {
 
       try {
         appCreator.run();
-        final command = AppSubcommand(app);
+        final command = AppSubcommand(app, ['app', app.name]);
         final runner = CommandRunner('loki', 'testing')..addCommand(command);
         await runner.run([app.name, '-f', 'dev', '-v']);
         expect(command.name, app.name);

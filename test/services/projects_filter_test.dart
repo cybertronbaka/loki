@@ -55,7 +55,7 @@ void main() {
           pubspec: {},
           dir: Directory('/path/to/package1'),
           type: ProjectType.package));
-      console = Console(StringBuffer());
+      console = Console(StringBuffer(), MockStdin());
       filter.printProjects();
     });
 

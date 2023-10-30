@@ -15,7 +15,7 @@ void main() {
 
     test('adds apps as subcommands', () async {
       final buffer = StringBuffer();
-      console = Console(buffer);
+      console = Console(buffer, MockStdin());
       cache = LokiCache();
       final projectsPath = 'test/.tmp_app';
       DirectoryUtils.mkdir(projectsPath);
@@ -29,7 +29,7 @@ void main() {
 
       try {
         appCreator.run();
-        final command = AppCommand();
+        final command = AppCommand(['app']);
         try {
           await command.run();
         } catch (e) {

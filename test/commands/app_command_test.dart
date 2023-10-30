@@ -29,7 +29,7 @@ void main() {
 
       try {
         appCreator.run();
-        final command = AppCommand();
+        final command = AppCommand(['app']);
         try {
           await command.run();
         } catch (e) {

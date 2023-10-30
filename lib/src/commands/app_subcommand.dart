@@ -5,7 +5,7 @@ class AppSubcommand extends BaseCommand {
   /// The Flutter project associated with this subcommand.
   Project app;
 
-  AppSubcommand(this.app) {
+  AppSubcommand(this.app, super.arguments) {
     addOptions();
   }
 

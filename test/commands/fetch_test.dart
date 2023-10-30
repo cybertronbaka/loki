@@ -31,7 +31,7 @@ void main() {
         appCreator.run();
         packageCreator.run();
         await FlutterLockRunner.run(() async {
-          final command = FetchCommand();
+          final command = FetchCommand(['fetch']);
           await command.run();
           expect(command.name, 'fetch');
           expect(

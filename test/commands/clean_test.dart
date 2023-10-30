@@ -31,7 +31,7 @@ void main() {
         appCreator.run();
         packageCreator.run();
         await FlutterLockRunner.run(() async {
-          final command = CleanCommand(cleanOnRoot: false);
+          final command = CleanCommand(['clean'], cleanOnRoot: false);
           await command.run();
           expect(command.name, 'clean');
           expect(command.description,

@@ -88,18 +88,20 @@ Exits with code 1 on <a href="https://pub.dev/documentation/args/2.4.2/command_r
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; run(List&lt;String&gt; arguments) async {
+  &#47;&#47; final t1 = DateTime.timestamp();
+  cache.firstTime.set(firstTime);
   _drawLogo();
 
   try {
     final runner = CommandRunner&lt;void&gt;(_executableName, _description)
-      ..addCommand(FetchCommand())
-      ..addCommand(CleanCommand())
-      ..addCommand(ListCommand())
-      ..addCommand(RunCommand())
-      ..addCommand(ValidateCommand())
-      ..addCommand(VersionCommand())
-      ..addCommand(AppCommand())
-    ;
+      ..addCommand(InitCommand(arguments))
+      ..addCommand(FetchCommand(arguments))
+      ..addCommand(CleanCommand(arguments))
+      ..addCommand(ListCommand(arguments))
+      ..addCommand(RunCommand(arguments))
+      ..addCommand(ValidateCommand(arguments))
+      ..addCommand(VersionCommand(arguments))
+      ..addCommand(AppCommand(arguments));
 
     await runner.run(arguments);
   } on PathNotFoundException catch (e, _) {
@@ -108,16 +110,21 @@ Exits with code 1 on <a href="https://pub.dev/documentation/args/2.4.2/command_r
   } on LokiError catch (e, _) {
     console.writeln(e.toString());
     exit(1);
-  } on YamlException catch (e) {
-    console.writeln(LokiError(&#39;Could not parse Yaml.${chalk.normal(
-        &#39;\nPlease check the file and try again&#39;)}&#39;).toString());
+  } on YamlException catch (_) {
+    console.writeln(LokiError(
+            &#39;Could not parse Yaml.${chalk.normal(&#39;\nPlease check the file and try again&#39;)}&#39;)
+        .toString());
     exit(1);
-  } on ArgParserException catch(e){
+  } on ArgParserException catch (e) {
     console.writeln(LokiError(e.message).toString());
     exit(1);
-  } on UsageException catch(e){
+  } on UsageException catch (e) {
     console.writeln(e.toString());
     exit(1);
+  } finally {
+    &#47;&#47; final t2 = DateTime.timestamp();
+    &#47;&#47; console.writeln(&#39;\n\nTook ${t2.microsecondsSinceEpoch - t1.microsecondsSinceEpoch} micro-secs&#39;);
+    &#47;&#47; console.writeln(&#39;Took ${t2.millisecondsSinceEpoch - t1.millisecondsSinceEpoch} milli-secs&#39;);
   }
 }</code></pre>
 </section>
@@ -152,7 +159,7 @@ Exits with code 1 on <a href="https://pub.dev/documentation/args/2.4.2/command_r
 <footer>
   <span class="no-break">
     loki
-      0.0.1
+      0.1.2
   </span>
 
   

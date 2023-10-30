@@ -42,20 +42,20 @@ class ProjectFilter {
     if (cache.loopCount.fetch != 0 && !force) return;
 
     if (packages.isNotEmpty) {
-      console.writeln(
-          chalk.yellowBright('Packages Found 📦 (${packages.length}):'));
+      console
+          .writeln(chalk.blueBright('Packages Found 📦 (${packages.length}):'));
       for (var pack in packages) {
         console.writeln(
-            '    - ${chalk.cyan(pack.name)}${chalk.pink(' @ ')}${pack.dir.path}');
+            '    - ${chalk.cyan(pack.name)} @ ${chalk.cyan(pack.dir.path)}');
       }
       console.writeln();
     }
 
     if (apps.isNotEmpty) {
-      console.writeln(chalk.yellowBright('Apps Found 💿 (${apps.length}):'));
+      console.writeln(chalk.blueBright('Apps Found 💿 (${apps.length}):'));
       for (var app in apps) {
         console.writeln(
-            '    - ${chalk.cyan(app.name)}${chalk.pink(' @ ')}${app.dir.path}');
+            '    - ${chalk.cyan(app.name)} @ ${chalk.cyan(app.dir.path)}');
       }
       console.writeln();
     }

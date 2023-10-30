@@ -2,6 +2,8 @@ part of commands;
 
 /// A command for printing version information.
 class VersionCommand extends BaseCommand {
+  VersionCommand(super.arguments);
+
   @override
   String get description => 'Print version information';
 

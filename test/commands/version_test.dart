@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 void main() {
   group('VersionCommand', () {
     test('prints version information', () {
-      final command = VersionCommand();
+      final command = VersionCommand(['version']);
       final buffer = StringBuffer();
       console = Console(buffer);
       command.run();
@@ -16,7 +16,7 @@ void main() {
     });
 
     test('prints attribution information', () {
-      final command = VersionCommand();
+      final command = VersionCommand(['version']);
       final buffer = StringBuffer();
       console = Console(buffer);
       command.run();

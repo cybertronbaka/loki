@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 void main() {
   group('ValidateCommand', () {
     test('loads config, shows app info, and prints "All Done"', () async {
-      final command = ValidateCommand();
+      final command = ValidateCommand(['validate']);
       final buffer = StringBuffer();
       console = Console(buffer);
       final path = 'test/fixtures/valid2.yaml';

@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:chalkdart/chalk.dart';
-import 'package:chalkdart/chalk_x11.dart';
 import 'package:loki/src/errors/errors.dart';
 import 'package:loki/src/models/models.dart';
 import 'package:yaml/yaml.dart';

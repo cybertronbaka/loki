@@ -25,9 +25,9 @@ final _description =
 /// when running Flutter apps with Melos.
 class LokiBase {
   /// If it is being run for first time or not
-  bool firstTime;
+  int loopCount;
 
-  LokiBase([this.firstTime = true]);
+  LokiBase([this.loopCount = 0]);
 
   /// Runs the Loki CLI tool with the provided arguments.
   ///
@@ -41,7 +41,7 @@ class LokiBase {
   /// Exits with code 1 on [ArgParserException] if there is an issue parsing command-line arguments.
   /// Exits with code 1 on [UsageException] if there is an issue with command usage.
   Future<void> run(List<String> arguments) async {
-    cache.firstTime.set(firstTime);
+    cache.loopCount.set(loopCount);
     _drawLogo();
 
     try {
@@ -77,9 +77,9 @@ class LokiBase {
 
   /// Draws the Loki logo to the console.
   void _drawLogo() {
-    if (!cache.firstTime.fetch) {
+    if (cache.loopCount.fetch != 0) {
       console.writeln(
-          '\nLoki: ${chalk.yellowBright('Running another instance of loki,,,')}\n');
+          '\nLoki: ${chalk.yellowBright('Running another instance of loki...')}\n');
       return;
     }
 

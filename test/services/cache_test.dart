@@ -55,13 +55,13 @@ void main() {
       ConfigParser configParser = cache.configParser.fetch;
       ProjectFilter projectFilter = cache.projectFilter.fetch;
       DevicesFilter devicesFilter = cache.devicesFilter.fetch;
-      bool firstTime = cache.firstTime.fetch;
+      int loopCount = cache.loopCount.fetch;
 
       expect(configParser, isA<ConfigParser>());
       expect(projectFilter, isA<ProjectFilter>());
       expect(devicesFilter, isA<DevicesFilter>());
       expect(cache.processManager.fetch, isA<ProcessManager>());
-      expect(firstTime, true);
+      expect(loopCount, 0);
     });
 
     test('cache objects are initialized correctly', () {
@@ -70,13 +70,13 @@ void main() {
       ConfigParser configParser = cache.configParser.fetch;
       ProjectFilter projectFilter = cache.projectFilter.fetch;
       DevicesFilter devicesFilter = cache.devicesFilter.fetch;
-      bool firstTime = cache.firstTime.fetch;
+      int loopCount = cache.loopCount.fetch;
 
       expect(configParser, isA<ConfigParser>());
       expect(projectFilter, isA<ProjectFilter>());
       expect(devicesFilter, isA<DevicesFilter>());
       expect(cache.processManager.fetch, isA<ProcessManager>());
-      expect(firstTime, true);
+      expect(loopCount, 0);
     });
 
     tearDown(() {

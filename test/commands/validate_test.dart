@@ -10,7 +10,7 @@ void main() {
       console = Console(buffer);
       final path = 'test/fixtures/valid2.yaml';
       cache.lokiYamlPath.set(path);
-      cache.firstTime.set(true);
+      cache.loopCount.set(0);
       await command.run();
       expect(command.name, contains('validate'));
       expect(command.description, contains('Validate loki.yaml config file.'));

@@ -30,6 +30,11 @@ void main() {
       try {
         appCreator.run();
         final command = AppCommand();
+        try {
+          await command.run();
+        } catch (e) {
+          expect(e.toString(), 'Null check operator used on a null value');
+        }
         expect(command.name, 'app');
         expect(command.description, 'Runs a flutter app in the workspace');
         expect(command.subcommands.keys, ['app1']);

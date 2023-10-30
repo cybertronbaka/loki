@@ -25,6 +25,11 @@ void main() {
       cache.configParser.set(configParser);
 
       final command = RunCommand();
+      try {
+        await command.run();
+      } catch (e) {
+        expect(e.toString(), 'Null check operator used on a null value');
+      }
       expect(command.name, 'run');
       expect(command.description,
           'Run a script by name defined in the workspace loki.yaml config file.\n\nTo run a script in sequence join the scripts using &&&.');

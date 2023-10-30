@@ -43,6 +43,10 @@ class ProjectCreator {
         '  lints: ^2.0.0\n'
         '  test: ^1.21.0\n';
     pubspec.writeAsStringSync(contents);
+    if (type == ProjectType.app) {
+      final d = Directory('${pDir.path}/android');
+      if (!d.existsSync()) d.createSync(recursive: true);
+    }
     final copyProcess = Process.runSync(
         'cp', ['-r', '.dart_tool', '${pDir.path}/.dart_tool'],
         workingDirectory: Directory('.').path, runInShell: true);

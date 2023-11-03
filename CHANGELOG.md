@@ -1,3 +1,9 @@
+## 0.3.0
+
+- chore: bump version to 0.3.0
+- chore: bump test coverage to 100%
+- feat: dependency_overrides added to fetch command
+
 ## 0.2.0
 
 - chore: dart format for publishing

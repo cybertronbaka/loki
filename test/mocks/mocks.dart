@@ -11,4 +11,6 @@ class MockDevicesFilter extends Mock implements DevicesFilter {}
 
 class MockProcessManager extends Mock implements ProcessManager {}
 
+class MockBootstrapper extends Mock implements Bootstrapper {}
+
 class MockStdin extends Mock implements Stdin {}

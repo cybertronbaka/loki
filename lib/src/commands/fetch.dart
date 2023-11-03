@@ -16,8 +16,11 @@ class FetchCommand extends BaseCommand {
     cache.configParser.fetch.showAppInfo();
     var projects = cache.projectFilter.fetch.all;
     cache.projectFilter.fetch.printProjects();
+    final bootstrapper = cache.bootstrapper.fetch;
     for (var p in projects) {
+      bootstrapper.run(p);
       await _fetch(p);
+      console.writeln();
     }
     console.printAllDone();
   }
@@ -46,6 +49,5 @@ class FetchCommand extends BaseCommand {
       },
       // coverage:ignore-end
     );
-    console.writeln();
   }
 }

@@ -14,9 +14,11 @@ class Console {
     sink.writeln(_prependSpaces(object));
   }
 
-  void moveUpAndClear() {
-    moveUp();
-    clearLine();
+  void moveUpAndClear([int n = 1]) {
+    for (var i = 0; i < n; i++) {
+      moveUp();
+      clearLine();
+    }
   }
 
   void moveUp() {
@@ -52,7 +54,7 @@ class Console {
   String get attributionText =>
       'Made with ❤️  by ${chalk.cyan('Dorji Gyeltshen ( ${chalk.red('@cybertronbaka')} )')}';
 
-  String get allDoneText => '\nLoki: ${chalk.green('All done, mate! 🍺🍺')}';
+  String get allDoneText => 'Loki: ${chalk.green('All done, mate! 🍺🍺')}';
 }
 
 /// An instance of the [Console] class providing utility methods for interacting with the console.

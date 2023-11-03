@@ -87,5 +87,41 @@ void main() {
         // packageCreator.clean();
       }
     });
+
+    test('run - filters and adds projects correctly (root itself is package',
+        () {
+      final projectsPath = 'test/.tmp_project_filter2';
+      final projectsPath1 = 'test/tmp_project_filter3';
+      DirectoryUtils.mkdir(projectsPath);
+
+      var configParser = MockConfigParser();
+      when(() => configParser.config).thenReturn(LokiConfig(
+          name: 'Project Filter Test',
+          packages: ['test/.tmp_project_filter2', projectsPath1]));
+      cache.configParser = CacheObject(load: () => configParser);
+
+      try {
+        ProjectCreator(path: projectsPath, name: 'app1', type: ProjectType.app)
+            .run();
+        ProjectCreator(
+                path: projectsPath, name: 'package1', type: ProjectType.package)
+            .run();
+        ProjectCreator(
+                path: '$projectsPath1/..',
+                name: 'tmp_project_filter3',
+                type: ProjectType.package)
+            .run();
+        final filter = ProjectFilter();
+        final result = filter.run(configParser.config);
+        expect(result.apps, hasLength(1));
+        expect(result.packages, hasLength(3)); // including this very project
+        expect(result.all, hasLength(4));
+      } finally {
+        DirectoryUtils.rmdir(projectsPath);
+        DirectoryUtils.rmdir(projectsPath1);
+        // appCreator.clean();
+        // packageCreator.clean();
+      }
+    });
   });
 }

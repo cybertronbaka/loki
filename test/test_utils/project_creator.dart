@@ -3,15 +3,24 @@ import 'dart:io';
 import 'package:loki/src/errors/errors.dart';
 import 'package:loki/src/models/models.dart';
 
+import 'json_2_yaml_str.dart';
+
 class ProjectCreator {
   String path;
   ProjectType type;
   String name;
-  ProjectCreator({
-    required this.path,
-    required this.name,
-    required this.type,
-  });
+  Map<String, dynamic> dependencies;
+  Map<String, dynamic> devDependencies;
+  Map<String, dynamic> pubspecOverrides;
+  bool createPubspecOverridesFile;
+  ProjectCreator(
+      {required this.path,
+      required this.name,
+      required this.type,
+      this.dependencies = const {},
+      this.devDependencies = const {},
+      this.pubspecOverrides = const {},
+      this.createPubspecOverridesFile = false});
 
   void run() {
     DirectoryUtils.mkdir(path);
@@ -23,26 +32,17 @@ class ProjectCreator {
     if (!pDir.existsSync()) pDir.createSync(recursive: true);
     final pubspec = File('$path/$name/pubspec.yaml');
     if (!pubspec.existsSync()) pubspec.createSync(recursive: true);
-    final flutterDeps = type == ProjectType.app
-        ? 'dependencies:\n'
-            '  flutter:\n'
-            '    sdk: flutter\n'
-        : '';
-    final flutterDevDeps = type == ProjectType.app
-        ? '  flutter_test:\n'
-            '    sdk: flutter\n'
-        : '';
-    final contents = 'name: $name\n'
-        'description: description\n'
-        'version: 1.0.0\n'
-        'environment:\n'
-        '  sdk: ^3.1.3\n'
-        '$flutterDeps\n'
-        'dev_dependencies:\n'
-        '$flutterDevDeps'
-        '  lints: ^2.0.0\n'
-        '  test: ^1.21.0\n';
+    final json = {
+      'name': name,
+      'description': 'description',
+      'version': '1.0.0',
+      'environment': {'sdk': '^3.1.3'},
+      ...buildDependencies(),
+      ...buildDevDependencies()
+    };
+    final contents = Json2YamlStr().run(json);
     pubspec.writeAsStringSync(contents);
+    _createPubspecOverrides();
     if (type == ProjectType.app) {
       final d = Directory('${pDir.path}/android');
       if (!d.existsSync()) d.createSync(recursive: true);
@@ -61,6 +61,51 @@ class ProjectCreator {
     // if(process.exitCode != 0){
     //   throw LokiError('Failed to pub get ${process.stderr}');
     // }
+  }
+
+  void _createPubspecOverrides() {
+    if (createPubspecOverridesFile || pubspecOverrides.isNotEmpty) {
+      FileUtils.create('$path/$name/pubspec_overrides.yaml',
+          Json2YamlStr().run(pubspecOverrides));
+    }
+  }
+
+  Map buildDependencies() {
+    final flutterDependencies = {
+      'flutter': {'sdk': 'flutter'}
+    };
+    if (dependencies.isEmpty) {
+      return type == ProjectType.app
+          ? {'dependencies': flutterDependencies}
+          : {};
+    }
+
+    return {
+      'dependencies': {
+        ...(type == ProjectType.app ? flutterDependencies : {}),
+        ...dependencies
+      }
+    };
+  }
+
+  Map buildDevDependencies() {
+    final flutterDependencies = {
+      'flutter_test': {'sdk': 'flutter'}
+    };
+    Map res = {
+      'dev_dependencies': {
+        ...(type == ProjectType.app ? flutterDependencies : {}),
+        'lints': '^2.0.0',
+        'test': '^1.21.0',
+      }
+    };
+    if (devDependencies.isNotEmpty) {
+      res['dev_dependencies'] = {
+        ...res['dev_dependencies'],
+        ...devDependencies
+      };
+    }
+    return res;
   }
 
   void clean() {

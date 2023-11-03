@@ -51,6 +51,7 @@ class LokiCache {
   late CacheObject<int> loopCount;
   late CacheObject<String> lokiYamlPath;
   late CacheObject<ProcessManager> processManager;
+  late CacheObject<Bootstrapper> bootstrapper;
 
   /// Constructs a [LokiCache] and initializes cache objects.
   LokiCache() {
@@ -62,6 +63,9 @@ class LokiCache {
     });
     projectFilter = CacheObject<ProjectFilter>(load: () {
       return ProjectFilter().run(configParser.fetch.config);
+    });
+    bootstrapper = CacheObject(load: () {
+      return Bootstrapper(projectFilter.fetch.all);
     });
     devicesFilter = CacheObject<DevicesFilter>(load: () {
       return DevicesFilter()..run();

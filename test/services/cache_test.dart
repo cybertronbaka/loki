@@ -76,6 +76,7 @@ void main() {
       expect(projectFilter, isA<ProjectFilter>());
       expect(devicesFilter, isA<DevicesFilter>());
       expect(cache.processManager.fetch, isA<ProcessManager>());
+      expect(cache.bootstrapper.fetch, isA<Bootstrapper>());
       expect(loopCount, 0);
     });
 

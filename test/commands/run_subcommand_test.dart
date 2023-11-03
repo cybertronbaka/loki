@@ -1,3 +1,4 @@
+import 'package:loki/loki.dart';
 import 'package:loki/src/commands/commands.dart';
 import 'package:loki/src/errors/errors.dart';
 import 'package:loki/src/models/models.dart';
@@ -83,6 +84,54 @@ void main() {
       }
     });
 
-    // TODO: Write tests for calling loki base directly from run-subcommand
+    test('recursive with loki', () async {
+      var configParser = MockConfigParser();
+      when(() => configParser.config)
+          .thenReturn(LokiConfig(name: 'Project Filter Test', packages: [
+        'test/.tmp_project_filter1'
+      ], scripts: [
+        LokiScriptConfig(
+            command: 'echo1',
+            exec: 'echo hi',
+            name: 'echo',
+            description: 'desc'),
+        LokiScriptConfig(
+            command: 'recursive',
+            exec: 'echo hello && loki run echo1',
+            name: 'echo',
+            description: 'desc')
+      ]));
+      cache.configParser = CacheObject(load: () => configParser);
+
+      await LokiBase().run(['run', 'recursive']);
+      expect(processes, hasLength(2));
+      expect(processes.map((e) => e.command).toList(), ['echo', 'echo']);
+      expect(processes.map((e) => e.args.join(',')).toList(), ['hello', 'hi']);
+    });
+
+    test('recursive with lkr', () async {
+      var configParser = MockConfigParser();
+      when(() => configParser.config)
+          .thenReturn(LokiConfig(name: 'Project Filter Test', packages: [
+        'test/.tmp_project_filter1'
+      ], scripts: [
+        LokiScriptConfig(
+            command: 'echo1',
+            exec: 'echo hi',
+            name: 'echo',
+            description: 'desc'),
+        LokiScriptConfig(
+            command: 'recursive',
+            exec: 'echo hello && lkr echo1',
+            name: 'echo',
+            description: 'desc')
+      ]));
+      cache.configParser = CacheObject(load: () => configParser);
+
+      await LokiBase().run(['run', 'recursive']);
+      expect(processes, hasLength(2));
+      expect(processes.map((e) => e.command).toList(), ['echo', 'echo']);
+      expect(processes.map((e) => e.args.join(',')).toList(), ['hello', 'hi']);
+    });
   });
 }

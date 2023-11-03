@@ -30,7 +30,7 @@ scripts:
     exec: lkr test:report && open coverage/report/index.html
   gen:cov:
     name: generate coverage
-    exec: bash .scripts/validate_coverage.sh coverage/lcov.info
+    exec: bash scripts/validate_coverage.sh coverage/lcov.info
   test:validate:
     name: test:report:open
     exec: lkr test && lkr activate:coverage && lkr coverage:format && lkr gen:cov
